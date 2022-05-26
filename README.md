@@ -1,7 +1,2 @@
 # refresher
-# refresher
-# refresher
-# refresher
-# refresher
-# refresher
-# refresher
+this is a trial app
