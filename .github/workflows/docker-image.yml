@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ REF-5-circleci ]
+    branches: [  $github.ref.name  ]
   pull_request:
     branches: [ main ]
 
@@ -24,5 +24,5 @@ jobs:
     - name: List files in the repository
       run: |
         ls ${{ github.workspace }}
-#    - name: Build the Docker image
-#      run: docker build . --file ../../docker/Dockerfile --tag my-image-name:$(date +%s)
+    - name: Build the Docker image
+      run: docker build . --file docker/Dockerfile --tag my-image-name:$(date +%s)
