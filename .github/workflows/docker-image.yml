@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [ REF-5-circleci ]
   pull_request:
-    branches: [ $default-branch ]
+    branches: [ main ]
 
 jobs:
 
@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file docker/Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . --file ../../docker/Dockerfile --tag my-image-name:$(date +%s)
