@@ -18,17 +18,7 @@ jobs:
             echo "Repository: ${{ github.repository }}:${{ github.ref_name }}."
             ls ${{ github.workspace }}
     - name: Custom Docker Build and Push
-      uses: ./action.yml
-      with:
-        username:
-          ibrahimroshdy
-        password:
-          ${{ secrets.pta }}
-        registry:
-          ghcr.io
-        repository:
-          ${{ github.repository }}
-        tag:
-          ${{ github.ref_name }}
-        file:
-          docker/Dockerfile
+      run:
+        docker login ghcr.io -u ${{ github.REPOSITORY_OWNER }} -p ${{ secrets.pta }}
+        docker build . --file docker/Dockerfile --tag ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+        docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
