@@ -34,3 +34,4 @@ jobs:
         # Push is a shorthand for --output=type=registry
         push: # optional, default is false
           true
+          ghcr.io
