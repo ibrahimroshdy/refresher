@@ -34,7 +34,7 @@ runs:
       shell: bash
     - run: docker login ${{ inputs.registry }} -u ${{ inputs.username }} -p ${{ inputs.password }}
       shell: bash
-    - run: docker build . --file ${{ inputs.file }} --tag ${{ inputs.registry }}/${{ input.repository }}:${{ input.tag }}
+    - run: docker build . --file ${{ inputs.file }} --tag ${{ inputs.registry }}/${{ inputs.repository }}:${{ inputs.tag }}
       shell: bash
-    - run: docker push ${{ inputs.registry }}/${{ input.repository }}:${{ input.tag }}
+    - run: docker push ${{ inputs.registry }}/${{ inputs.repository }}:${{ inputs.tag }}
       shell: bash
