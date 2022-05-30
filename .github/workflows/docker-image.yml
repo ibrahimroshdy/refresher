@@ -17,7 +17,7 @@ jobs:
             echo "os: ${{ runner.os }} server."
             echo "Repository: ${{ github.repository }}:${{ github.ref_name }}."
             ls ${{ github.workspace }}
-    - name: Docker build and push
+    - name: Docker Build and Push
       uses: ./.github/actions
       with:
         username:
