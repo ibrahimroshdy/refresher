@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     name: build docker
     steps:
-     - name: Checkout
-       uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
     - name: Intro to job runner
       run: |
             echo "Event:${{ github.event_name }}"
