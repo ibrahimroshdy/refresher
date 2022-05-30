@@ -29,9 +29,11 @@ jobs:
       uses: docker/build-push-action@v3.0.0
       with:
         # Build's context is the set of files located in the specified PATH or URL
-        context: # optional        # Path to the Dockerfile
-          docker
-        # Push is a shorthand for --output=type=registry
+#        context: # optional
+#         # Path to the Dockerfile
+        file: # optional
+           # Push is a shorthand for --output=type=registry
+          docker/Dockerfile
         push: # optional, default is false
           true
         tags:
