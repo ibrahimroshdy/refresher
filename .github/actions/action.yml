@@ -4,13 +4,13 @@ description: 'Build, push docker images to container registry'
 inputs:
   username:
     description: 'username for registry'
-      required: true
-      default: 'none'
+    required: true
+    default: 'none'
   password:
     description: 'password for registry'
-      required: true
-      default: 'none'
-  registry:  # id of input
+    required: true
+    default: 'none'
+  registry: # id of input
     description: 'Registry name (ex. ghcr.io, registry.gitlab.com)'
     required: true
     default: 'ghcr.io'
@@ -24,11 +24,17 @@ inputs:
     default: 'latest'
   file:
     description: 'Path for dockerfile'
-      required: true
-      default: 'Dockerfile'
+    required: true
+    default: 'Dockerfile'
 
 runs:
- run:
-   - docker login ${{ inputs.registry }} -u ${{ inputs.username }} -p ${{ inputs.password }}
-   - docker build . --file ${{ inputs.file }} --tag ${{ inputs.registry }}/${{ input.repository }}:${{ input.tag }}
-   - docker push ${{ inputs.registry }}/${{ input.repository }}:${{ input.tag }}
+  using: "composite"
+  steps:
+    - run: echo "${{ inputs.registry }} ${{ inputs.username }} "
+      shell: bash
+    - run: docker login ${{ inputs.registry }} -u ${{ inputs.username }} -p ${{ inputs.password }}
+      shell: bash
+    - run: docker build . --file ${{ inputs.file }} --tag ${{ inputs.registry }}/${{ inputs.repository }}:${{ inputs.tag }}
+      shell: bash
+    - run: docker push ${{ inputs.registry }}/${{ inputs.repository }}:${{ inputs.tag }}
+      shell: bash
