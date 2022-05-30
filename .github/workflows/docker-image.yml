@@ -18,7 +18,7 @@ jobs:
             echo "Repository: ${{ github.repository }}:${{ github.ref_name }}."
             ls ${{ github.workspace }}
     - name: Custom Docker Build and Push
-      uses: action.yml
+      uses: ./action.yml
       with:
         username:
           ibrahimroshdy
