@@ -18,7 +18,7 @@ jobs:
             echo "Repository: ${{ github.repository }}:${{ github.ref_name }}."
             ls ${{ github.workspace }}
     - name: Docker build and push
-      uses: ./.github/actions/docker-build-push-action
+      uses: ./.github/actionsß
       with:
         username:
           ${{ github.REPOSITORY_OWNER }}
