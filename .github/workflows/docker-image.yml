@@ -28,9 +28,9 @@ jobs:
       # uses: docker/build-push-action@e551b19e49efd4e98792db7592c17c09b89db8d8
       uses: docker/build-push-action@v3.0.0
       with:
-        context: # optional
-        # Path to the Dockerfile
+        # Build's context is the set of files located in the specified PATH or URL
+        context: # optional        # Path to the Dockerfile
           docker
-        file: # optional
-        # List of metadata for an image
-          docker/Dockerfile
+        # Push is a shorthand for --output=type=registry
+        push: # optional, default is false
+          ghcr.io
