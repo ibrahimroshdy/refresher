@@ -1,14 +1,34 @@
 # docker image action.yml
-name: 'Refresher Backend'
-description: 'Building referesher backend action'
-#inputs:
-#  who-to-greet:  # id of input
-#    description: 'Who to greet'
-#    required: true
-#    default: 'World'
-#outputs:
-#  time: # id of output
-#    description: 'The time we greeted you'
+name: 'Docker Build and Push'
+description: 'Build, push docker images to container registry'
+inputs:
+  username:
+    description: 'username for registry'
+      required: true
+      default: 'none'
+  password:
+    description: 'password for registry'
+      required: true
+      default: 'none'
+  registry:  # id of input
+    description: 'Registry name (ex. ghcr.io, registry.gitlab.com)'
+    required: true
+    default: 'ghcr.io'
+  repository:
+    description: 'repository name '
+    required: true
+    default: 'test'
+  tag: # id of input
+    description: 'Custom tag for docker image'
+    required: false
+    default: 'latest'
+  file:
+    description: 'Path for dockerfile'
+      required: true
+      default: 'Dockerfile'
+
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+ run:
+   - docker login ${{ inputs.registry }} -u ${{ inputs.username }} -p ${{ inputs.password }}
+   - docker build . --file ${{ inputs.file }} --tag ${{ inputs.registry }}/${{ input.repository }}:${{ input.tag }}
+   - docker push ${{ inputs.registry }}/${{ input.repository }}:${{ input.tag }}
