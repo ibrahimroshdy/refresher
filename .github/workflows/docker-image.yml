@@ -17,6 +17,21 @@ jobs:
             echo "os: ${{ runner.os }} server."
             echo "Repository: ${{ github.repository }}:${{ github.ref_name }}."
             ls ${{ github.workspace }}
+    - name: Docker build and push
+      uses: ./.github/actions/docker-build-push-action
+      with:
+        username:
+          ibrahimroshdy
+        password:
+          ${{ secrets.pta }}
+        registry:
+          ghcr.io
+        repository:
+          ${{ github.repository }}
+        tag:
+          ${{ github.ref_name }}
+        file:
+          docker/Dockerfile
     - name: Docker login
       run:
         docker login ghcr.io -u ${{ github.REPOSITORY_OWNER }} -p ${{ secrets.pta }}
