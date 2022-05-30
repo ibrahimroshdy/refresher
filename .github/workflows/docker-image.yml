@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     name: build docker
     steps:
+    ###################################################################################################################
+    #######################   CHECK OUT REPO AND PRINT REPO INFO ######################################################
+    ###################################################################################################################
     - name: Checkout
       uses: actions/checkout@v3
     - name: Intro to job runner
@@ -17,8 +20,11 @@ jobs:
             echo "os: ${{ runner.os }} server."
             echo "Repository: ${{ github.repository }}:${{ github.ref_name }}."
             ls ${{ github.workspace }}
+    ###################################################################################################################
+    ####################### DOCKER BUILD AND PUSH CUSTOM ACTION #######################################################
+    ###################################################################################################################
     - name: Docker Build and Push
-      uses: ./.github/actions
+      uses: ./.github/actions/docker-build-push-image
       with:
         username:
           ${{ github.REPOSITORY_OWNER }}
@@ -32,6 +38,9 @@ jobs:
           ${{ github.ref_name }}
         file:
           docker/Dockerfile
+    ###################################################################################################################
+    ####################### DOCKER JOB STEPS FOR BUILD & PUSH  ########################################################
+    ###################################################################################################################
 #    - name: Docker login
 #      run:
 #        docker login ghcr.io -u ${{ github.REPOSITORY_OWNER }} -p ${{ secrets.pta }}
