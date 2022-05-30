@@ -38,3 +38,5 @@ jobs:
           true
         tags:
           ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+        github-token: # optional, default is ${{ github.token }}
+          ${{ secrets.pta }}
