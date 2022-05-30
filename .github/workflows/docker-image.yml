@@ -10,63 +10,46 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-    - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-    - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-    - name: Check out repository code
-      uses: actions/checkout@v3
-    - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-    - run: echo "💡 The ${{ github.ref_name }} is the reference name of the project."
-    - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+    - name: Intro to job runner
+      run: echo "Event:${{ github.event_name }}.\n os:${{ runner.os }} server.\n Repository:${{ github.repository }}:${{ github.ref_name }}.\n"
     - name: List files in the repository
       run: |
         ls ${{ github.workspace }}
 #    - name: Build the Docker image
 #      run: docker build . --file docker/Dockerfile --tag ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-    - name: Build and push Docker images
-      # You may pin to the exact commit or the version.
-      # uses: docker/build-push-action@e551b19e49efd4e98792db7592c17c09b89db8d8
-      uses: docker/build-push-action@v3.0.0
-      with:
-        # Build's context is the set of files located in the specified PATH or URL
-#        context: # optional
-#         # Path to the Dockerfile
-        file: # optional
-           # Push is a shorthand for --output=type=registry
-          docker/Dockerfile
-        push: # optional, default is false
-          true
-        tags:
-          ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-#        github-token: # optional, default is ${{ github.token }}
-#          ${{ secrets.pta }}
     - name: GHCR Docker Buildx Build
       # You may pin to the exact commit or the version.
       # uses: bskiefer/docker_buildx@9b5f270ae6d0b02e83e32f785d5cd246d85a18eb
       uses: bskiefer/docker_buildx@v1.4
       with:
-        # Tags (comma separated) to apply to the image
         tag: # optional, default is latest
-        # Name of the image
           ghcr.io/${{ github.repository }}:${{ github.ref_name }}
         imageName:
-        # Name of the Dockerfile
           refresher
         dockerFile: # optional, default is Dockerfile
           docker/Dockerfile
-        # Docker `--build-arg` flags (*comma separated*)
     - name: push-to-ghcr
       # You may pin to the exact commit or the version.
       # uses: macbre/push-to-ghcr@d45c4b8f5a72d7fe21f6b832c42d05c29356c840
       uses: macbre/push-to-ghcr@v8
       with:
-        # Your secrets.GITHUB_TOKEN
-        github_token:
+        github_token: # Your secrets.GITHUB_TOKEN
           secrets.pts
-        # Image name, e.g. my-user-name/my-repo
         image_name:
           ${{ github.repository }}
-        # A path to the Dockerfile (if it's not in the repository's root directory)
         dockerfile: # optional, default is ./Dockerfile
           docker/Dockerfile
-        # A path to the context in which the build will happen, see https://docs.docker.com/engine/reference/commandline/build/
+
+#    - name: Build and push Docker images
+#        # You may pin to the exact commit or the version.
+#        # uses: docker/build-push-action@e551b19e49efd4e98792db7592c17c09b89db8d8
+#        uses: docker/build-push-action@v3.0.0
+#        with:
+#          file: # optional: Push is a shorthand for --output=type=registry
+#            docker/Dockerfile
+#          push: # optional, default is false
+#            true
+#          tags:
+#            ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+#    #        github-token: # optional, default is ${{ github.token }}
+#    #          ${{ secrets.pta }}
