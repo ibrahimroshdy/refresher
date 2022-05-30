@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on: [push]
+
+jobs:
+
+  docker_build:
+    runs-on: ubuntu-latest
+    name: build docker
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Intro to job runner
+      run: |
+            echo "job runner details "
+            echo "Event: ${{ github.event_name }}"
+            echo "os: ${{ runner.os }} server."
+            echo "Repository: ${{ github.repository }}:${{ github.ref_name }}."
+            ls ${{ github.workspace }}
+    - name: Docker login
+      run:
+        docker login ghcr.io -u ${{ github.REPOSITORY_OWNER }} -p ${{ secrets.pta }}
+    - name: Docker build
+      run:
+        docker build . --file docker/Dockerfile --tag ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+    - name: Docker push
+      run:
+        docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
