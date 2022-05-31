@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  # Refresher Backend Service
+  refresherbackend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: refresherbackend
+    restart: always
+    ports:
+      - 8000:8000
+    environment:
+      - DEBUG=True
+      - GUNICORN_SSL=false
+    volumes:
+      - media:/app/media
+
+volumes:
+  media:
+    external: false
