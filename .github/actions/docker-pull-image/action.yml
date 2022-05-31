@@ -1,0 +1,34 @@
+# docker image action.yml
+name: 'Docker Login and Pull'
+description: 'Login, pull docker images to container registry'
+inputs:
+  username:
+    description: 'username for registry'
+    required: true
+    default: 'none'
+  password:
+    description: 'password for registry'
+    required: true
+    default: 'none'
+  registry: # id of input
+    description: 'Registry name (ex. ghcr.io, registry.gitlab.com)'
+    required: true
+    default: 'ghcr.io'
+  repository:
+    description: 'repository name '
+    required: true
+    default: 'test'
+  tag: # id of input
+    description: 'Custom tag for docker image'
+    required: false
+    default: 'latest'
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo "${{ inputs.registry }} ${{ inputs.username }} "
+      shell: bash
+    - run: docker login ${{ inputs.registry }} -u ${{ inputs.username }} -p ${{ inputs.password }}
+      shell: bash
+    - run: docker pull ${{ inputs.registry }}/${{ inputs.repository }}:${{ inputs.tag }}
+      shell: bash

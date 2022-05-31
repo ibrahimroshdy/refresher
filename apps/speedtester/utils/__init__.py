@@ -1,1 +1,1 @@
-from abstract_speedtest import RefresherSpeedtest
+from .abstract_speedtest import RefresherSpeedtest
