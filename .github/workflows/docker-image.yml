@@ -3,13 +3,11 @@ name: Refresher CI
 on: [push]
 
 jobs:
-  docker_build:
+  build_push:
     runs-on: ubuntu-latest
     name: build docker
     steps:
-    ###################################################################################################################
-    #######################   CHECK OUT REPO AND PRINT REPO INFO ######################################################
-    ###################################################################################################################
+    ##########   CHECK OUT REPO AND PRINT REPO INFO #######
     - name: Checkout
       uses: actions/checkout@v3
     - name: Intro to job runner
@@ -19,9 +17,7 @@ jobs:
             echo "os: ${{ runner.os }} server."
             echo "Repository: ${{ github.repository }}:${{ github.ref_name }}."
             ls ${{ github.workspace }}
-    ###################################################################################################################
-    ####################### DOCKER BUILD AND PUSH CUSTOM ACTION #######################################################
-    ###################################################################################################################
+    ######### DOCKER BUILD AND PUSH CUSTOM ACTION #############
     - name: Docker Build and Push
       uses: ./.github/actions/docker-build-push-image
       with:
@@ -38,16 +34,21 @@ jobs:
         file:
           docker/Dockerfile
   test:
-    needs: docker_build
+    needs: build_push
     runs-on: ubuntu-latest
     name:  test docker
     steps:
-      ###################################################################################################################
-      #######################   CHECK OUT REPO AND PRINT REPO INFO ######################################################
-      ###################################################################################################################
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: pull image
-        run: docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-      - name: run tests
-        run: docker run ghcr.io/${{ github.repository }}:${{ github.ref_name }} /bin/bash -c "python manage.py test apps"
+    ######### DOCKER LOGIN AND PULL CUSTOM ACTION #############
+    - name: Docker Login and Pull
+      uses: ./.github/actions/docker-pull-image
+      with:
+        username:
+          ${{ github.REPOSITORY_OWNER }}
+        password:
+          ${{ secrets.pta }}
+        registry:
+          ghcr.io
+        repository:
+          ${{ github.repository }}
+        tag:
+          ${{ github.ref_name }}
