@@ -49,6 +49,6 @@ jobs:
       - name: Run tests
         run: |
           echo "TESTING"
-          pip install poetry
+          pip3 install poetry
           poetry install 
           python3 manage.py test apps.speedtester.tests
