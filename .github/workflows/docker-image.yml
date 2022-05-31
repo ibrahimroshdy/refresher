@@ -55,4 +55,5 @@ jobs:
           ${{ github.repository }}
         tag:
           ${{ github.ref_name }}
+    - name: Run tests
       run: docker run ghcr.io/${{ github.repository }}:${{ github.ref_name }} /bin/bash -c "python manage.py test apps"
