@@ -49,6 +49,8 @@ jobs:
       - name: Run tests
         run: |
           echo "TESTING"
-          pip3 install poetry
+          pip3 install poetry virtualenv
+          virtualenv venv -p python3.7
+          source /venv/bin/activate
           poetry install 
           python3 manage.py test apps.speedtester.tests
