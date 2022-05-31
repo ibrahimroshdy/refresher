@@ -29,9 +29,9 @@ class RefresherSpeedtest:
         }
 
     def get_best_server(self):
-        best = self.speedtester.best
-        best.pop('id')
-        return best
+        best_server = self.speedtester.best
+        best_server.pop('id')
+        return best_server
 
     # def get_servers(self):
     #     servers = []
