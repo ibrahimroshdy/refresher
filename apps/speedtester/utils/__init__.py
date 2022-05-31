@@ -1,0 +1,1 @@
+from abstract_speedtest import RefresherSpeedtest
