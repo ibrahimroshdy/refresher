@@ -38,19 +38,16 @@ jobs:
         file:
           docker/Dockerfile
   test:
+    needs: docker_build
     runs-on: ubuntu-latest
-    name: Test djnago db models
+    name:  test docker
     steps:
       ###################################################################################################################
       #######################   CHECK OUT REPO AND PRINT REPO INFO ######################################################
       ###################################################################################################################
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Run tests
-        run: |
-          echo "TESTING"
-          pip3 install poetry virtualenv
-          virtualenv venv -p python3.7
-          source /venv/bin/activate
-          poetry install 
-          python3 manage.py test apps.speedtester.tests
+      - name: pull image
+        run: docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+      - name: run tests
+        run: docker run ghcr.io/${{ github.repository }}:${{ github.ref_name }} /bin/bash -c "python manage.py test apps"
