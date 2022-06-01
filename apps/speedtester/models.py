@@ -3,6 +3,7 @@ from model_utils.models import TimeStampedModel
 
 
 class ServersModel(TimeStampedModel):
+    id = models.IntegerField('id', primary_key=True)
     url = models.URLField('url')
     lat = models.FloatField('lat')
     lon = models.FloatField('lon')
@@ -12,7 +13,7 @@ class ServersModel(TimeStampedModel):
     sponsor = models.CharField('sponsor', max_length=256)
     host = models.CharField('host', max_length=256)
     d = models.FloatField('d')
-    latency = models.FloatField('latency')
+    latency = models.FloatField('latency', null=True, blank=True)
 
     def __str__(self):
         return f'{self.cc}.{self.name}'
