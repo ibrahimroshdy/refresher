@@ -42,13 +42,13 @@ class RefresherSpeedtest:
     #     return servers
 
 
-if __name__ == '__main__':
-    refresher_speedtest = RefresherSpeedtest()
-    speedtest_res = refresher_speedtest.get_speedtest()
-    best = refresher_speedtest.get_best_server()
-    # servers = refresher_speedtest.get_servers()
-    # print(f'{servers}')
-
-    server_object = ServersModel.objects.create(**best)
-    speedtest_object = SpeedtesterModel.objects.create(**speedtest_res, best_server_id=server_object.id)
-    # server_objs = ServersModel.objects.bulk_create(servers)
+# if __name__ == '__main__':
+#     refresher_speedtest = RefresherSpeedtest()
+#     speedtest_res = refresher_speedtest.get_speedtest()
+#     best = refresher_speedtest.get_best_server()
+#     # servers = refresher_speedtest.get_servers()
+#     # print(f'{servers}')
+#
+#     server_object = ServersModel.objects.create(**best)
+#     speedtest_object = SpeedtesterModel.objects.create(**speedtest_res, best_server_id=server_object.id)
+#     # server_objs = ServersModel.objects.bulk_create(servers)
