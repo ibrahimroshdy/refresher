@@ -26,7 +26,7 @@ services:
       dockerfile: docker/Dockerfile
     container_name: celery_worker
     restart: always
-    command: /bin/bash -c "celery -A config.celery worker --loglevel=info"
+    command: /bin/bash -c "celery -A config.celery_app worker --loglevel=info"
     environment:
       - DEBUG=True
       - GUNICORN_SSL=false
@@ -44,7 +44,7 @@ services:
       dockerfile: docker/Dockerfile
     container_name: celery_beat
     restart: always
-    command: /bin/bash -c "celery -A config.celery beat --loglevel=info"
+    command: /bin/bash -c "celery -A config.celery_app beat --loglevel=info"
     environment:
       - DEBUG=True
       - GUNICORN_SSL=false
