@@ -7,7 +7,7 @@ from . import models, resources
 
 @admin.register(models.SpeedtesterModel)
 class SpeedtesterAdmin(ImportExportModelAdmin, ExportActionMixin):
-    list_display = ['best_server', 'download', 'upload']
+    list_display = ['best_server', 'download', 'upload', 'created']
     list_filter = ['best_server__country', 'best_server__name', 'best_server__cc']
     search_fields = ['best_server__country', 'best_server__name', 'best_server__cc']
     readonly_fields = ['best_server']
@@ -17,7 +17,7 @@ class SpeedtesterAdmin(ImportExportModelAdmin, ExportActionMixin):
 
 @admin.register(models.ServersModel)
 class ServerAdmin(ImportExportModelAdmin, ExportActionMixin):
-    list_display = ['url', 'name', 'country', 'cc', 'sponsor', 'host']
+    list_display = ['url','created', 'name', 'country', 'cc', 'sponsor', 'host']
     list_filter = ['name', 'country', 'cc']
     search_fields = ['name', 'country', 'cc']
     date_hierarchy = 'created'
