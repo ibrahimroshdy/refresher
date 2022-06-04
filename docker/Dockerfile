@@ -1,7 +1,7 @@
 # Multistage build
 # 1. Base image as python for requirments/env
 FROM python:3.7-slim-stretch as base
-
+LABEL org.opencontainers.image.source https://github.com/ibrahimroshdy/refresher
 RUN apt-get update \
 && apt-get install -y --no-install-recommends git libpq-dev\
 && apt-get purge -y --auto-remove \

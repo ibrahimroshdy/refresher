@@ -1,0 +1,45 @@
+[
+  {
+    "model": "django_celery_beat.intervalschedule",
+    "pk": 1,
+    "fields": {
+      "every": 1,
+      "period": "minutes"
+    }
+  },
+  {
+    "model": "django_celery_beat.periodictasks",
+    "pk": 1,
+    "fields": {
+      "last_update": "2022-05-31T22:01:36.680Z"
+    }
+  },
+  {
+    "model": "django_celery_beat.periodictask",
+    "pk": 1,
+    "fields": {
+      "name": "Process Speed Test",
+      "task": "apps.speedtester.tasks.process_speedtest",
+      "interval": 1,
+      "crontab": null,
+      "solar": null,
+      "clocked": null,
+      "args": "[]",
+      "kwargs": "{}",
+      "queue": null,
+      "exchange": null,
+      "routing_key": null,
+      "headers": "{}",
+      "priority": null,
+      "expires": null,
+      "expire_seconds": null,
+      "one_off": false,
+      "start_time": "2022-05-31T22:00:01Z",
+      "enabled": true,
+      "last_run_at": null,
+      "total_run_count": 0,
+      "date_changed": "2022-05-31T22:01:36.682Z",
+      "description": ""
+    }
+  }
+]
