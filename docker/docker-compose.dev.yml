@@ -57,14 +57,21 @@ services:
       - refresherbackend
       - celery_worker
 
-
   redis:
     image: redis:5-alpine
     container_name: redis
     restart: always
     ports:
       - "127.0.0.1:6379:6379"
-        
+
+  flower:
+    image: mher/flower
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - FLOWER_PORT=8888
+    ports:
+      - 8888:8888
+
   postgres:
     image: postgres:10
     container_name: postgres
