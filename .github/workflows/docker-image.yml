@@ -57,4 +57,4 @@ jobs:
           ${{ github.ref_name }}
     - name: Run tests
       run: docker run ghcr.io/${{ github.repository }}:${{ github.ref_name }} /bin/bash -c "coverage run manage.py test apps 
-            && codecov --token=${{ secerts.codecov_token }}"
+            && codecov --token=${{ secrets.codecov_token }}"
