@@ -5,7 +5,7 @@ from . import models
 
 class SpeedtesterResource(resources.ModelResource):
     id = fields.Field(attribute='id')
-    best_server = fields.Field(attribute='best_server', widget=ForeignKeyWidget(models.ServersModel, 'url'))
+    best_server = fields.Field(attribute='best_server', widget=ForeignKeyWidget(models.ServersModel, 'name'))
 
     class Meta:
         model = models.SpeedtesterModel
