@@ -1,20 +1,55 @@
 version: "3"
 
 services:
-#  # Refresher Backend Service
-#  refresherbackend:
-#    build:
-#      context: ..
-#      dockerfile: docker/Dockerfile
-#    container_name: refresherbackend
-#    restart: always
-#    ports:
-#      - 8000:8000
-#    environment:
-#      - DEBUG=True
-#      - GUNICORN_SSL=false
-#    volumes:
-#      - media:/app/media
+  # Refresher Backend Service
+  refresherbackend:
+    image: refresherbackend
+    container_name: refresherbackend
+    restart: always
+    ports:
+      - 8000:8000
+    environment:
+      - DEBUG=True
+      - GUNICORN_SSL=false
+      - DATABASE_URL=postgres://refresher:refresher@postgres:5432/refresher
+      - REDIS_SERVER_HOST=redis
+    volumes:
+      - media:/app/media
+    depends_on:
+      - postgres
+
+  celery_worker:
+    image: refresherbackend
+    container_name: celery_worker
+    restart: always
+    command: /bin/bash -c "celery -A config.celery_app worker --loglevel=info"
+    environment:
+      - DEBUG=True
+      - GUNICORN_SSL=false
+      - DATABASE_URL=postgres://refresher:refresher@postgres:5432/refresher
+      - REDIS_SERVER_HOST=redis
+    volumes:
+      - media:/app/media
+    depends_on:
+      - redis
+      - refresherbackend
+
+  celery_beat:
+    image: refresherbackend
+    container_name: celery_beat
+    restart: always
+    command: /bin/bash -c "celery -A config.celery_app beat --loglevel=info"
+    environment:
+      - DEBUG=True
+      - GUNICORN_SSL=false
+      - DATABASE_URL=postgres://refresher:refresher@postgres:5432/refresher
+      - REDIS_SERVER_HOST=redis
+    volumes:
+      - media:/app/media
+    depends_on:
+      - redis
+      - refresherbackend
+      - celery_worker
 
   redis:
     image: redis:5-alpine
@@ -23,6 +58,64 @@ services:
     ports:
       - "127.0.0.1:6379:6379"
 
+  flower:
+    image: mher/flower
+    container_name: flower
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - FLOWER_PORT=8888
+    ports:
+      - 8888:8888
+
+  postgres:
+    image: postgres:10
+    container_name: postgres
+    command: postgres -c 'max_connections=1000'
+    restart: always
+    environment:
+      POSTGRES_DB: refresher
+      POSTGRES_PASSWORD: refresher
+      POSTGRES_USER: refresher
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  grafana:
+      image: grafana/grafana:7.5.7
+      container_name: grafana
+      ports:
+        - 3000:3000
+      restart: always
+      environment:
+        - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-worldmap-panel
+      volumes:
+        - ./grafana/provisioning:/etc/grafana/provisioning
+        - grafana:/var/lib/grafana
+
+#  prometheus:
+#    image: prom/prometheus:v2.17.1
+#    container_name: prometheus
+##    command:
+##      - '--config.file=/etc/prometheus/prometheus.yml'
+##      - '--storage.tsdb.path=/prometheus'
+##      - '--web.console.libraries=/etc/prometheus/console_libraries'
+##      - '--web.console.templates=/etc/prometheus/consoles'
+##      - '--storage.tsdb.retention.time=200h'
+##      - '--web.enable-lifecycle'
+#    restart: unless-stopped
+#    ports:
+#      - 9090:9090
+#    volumes:
+#      - ./prometheus:/etc/prometheus
+#      - prometheus:/prometheus
+
 volumes:
   media:
     external: false
+  postgres:
+    external: false
+  grafana:
+    external: false
+#  prometheus:
+#    external: false

@@ -11,7 +11,7 @@ services:
     ports:
       - 8000:8000
     environment:
-      - DEBUG=True
+      - DEBUG=false
       - GUNICORN_SSL=false
       - DATABASE_URL=postgres://refresher:refresher@postgres:5432/refresher
       - REDIS_SERVER_HOST=redis
@@ -123,5 +123,5 @@ volumes:
     external: false
   grafana:
     external: false
-  prometheus:
-    external: false
+#  prometheus:
+#    external: false
