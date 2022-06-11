@@ -16,7 +16,7 @@ services:
       - ONLY_SUBDOMAINS=true
       - VALIDATION=http
     volumes:
-      - /home/withnoledge/swag:/config
+      - /home/withnoedge/swag:/config
 #      - media:/media
     ports:
       - 443:443
@@ -36,6 +36,9 @@ services:
       volumes:
         - ./grafana/provisioning:/etc/grafana/provisioning
         - grafana:/var/lib/grafana
+      depends_on:
+        - swag
+  
   # Refresher Backend Service
   refresherbackend:
     image: refresherbackend
@@ -52,6 +55,7 @@ services:
       - media:/app/media
     depends_on:
       - postgres
+      - swag
   
   flower:
     image: mher/flower
@@ -61,6 +65,8 @@ services:
       - FLOWER_PORT=8888
     expose:
       - 8888
+    depends_on:
+      - swag
   
   celery_worker:
     image: refresherbackend
