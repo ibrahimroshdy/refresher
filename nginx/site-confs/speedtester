@@ -3,8 +3,11 @@ upstream speedtester {
 }
 
 server {
-        listen 80;
-        listen [::]:80;
+        listen 8000 ssl http2 default_server;
+        listen [::]:8000 ssl http2 default_server;
+
+        # all ssl related config moved to ssl.conf
+        include /config/nginx/ssl.conf;
 
         #path to proxy hosted speedtester
        location / {

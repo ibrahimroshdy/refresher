@@ -3,8 +3,11 @@ upstream flower {
 }
 
 server {
-        listen 80;
-        listen [::]:80;
+        listen 8888 ssl http2 default_server;
+        listen [::]:8888 ssl http2 default_server;
+
+        # all ssl related config moved to ssl.conf
+        include /config/nginx/ssl.conf;
 
         #path to proxy hosted flower
        location / {
