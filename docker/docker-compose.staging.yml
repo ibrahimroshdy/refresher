@@ -1,28 +1,52 @@
-version: "3"
+version: "2"
 
 services:
-  grafana:
-    image: grafana/grafana:7.5.7
-    container_name: grafana
-    ports:
-      - 3000:3000
+  swag:
+    image: linuxserver/swag
     restart: always
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
     environment:
-      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-worldmap-panel
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - URL=withnoedge.tech
+      - SUBDOMAINS=speedtest
+      - ONLY_SUBDOMAINS=true
+      - VALIDATION=http
     volumes:
-      - ./grafana/provisioning:/etc/grafana/provisioning
-      - grafana:/var/lib/grafana
+      - /home/withnoedge/swag:/config
+#      - media:/media
+    ports:
+      - 443:443
+      - 80:80
+      - 8000:8000
+      - 3000:3000
+      - 8888:8888
+
+  grafana:
+      image: grafana/grafana:7.5.7
+      container_name: grafana
+      expose:
+        - 3000
+      restart: always
+      environment:
+        - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-worldmap-panel
+      volumes:
+        - ./grafana/provisioning:/etc/grafana/provisioning
+        - grafana:/var/lib/grafana
+      depends_on:
+        - swag
+  
   # Refresher Backend Service
   refresherbackend:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
+    image: refresherbackend
     container_name: refresherbackend
     restart: always
-    ports:
-      - 8000:8000
+    expose:
+      - 8000
     environment:
-      - SECRET_KEY=uwq8q73gk)v+k!8y742!k8#asdasduwq8q73gk)v+k!8y742!k8#
       - DEBUG=false
       - GUNICORN_SSL=false
       - DATABASE_URL=postgres://refresher:refresher@postgres:5432/refresher
@@ -31,20 +55,21 @@ services:
       - media:/app/media
     depends_on:
       - postgres
-
+      - swag
+  
   flower:
     image: mher/flower
     container_name: flower
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - FLOWER_PORT=8888
-    ports:
-      - 8888:8888
-
+    expose:
+      - 8888
+    depends_on:
+      - swag
+  
   celery_worker:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
+    image: refresherbackend
     container_name: celery_worker
     restart: always
     command: /bin/bash -c "celery -A config.celery_app worker --loglevel=info"
@@ -60,9 +85,7 @@ services:
       - refresherbackend
 
   celery_beat:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
+    image: refresherbackend
     container_name: celery_beat
     restart: always
     command: /bin/bash -c "celery -A config.celery_app beat --loglevel=info"
@@ -99,29 +122,12 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
 
-#  prometheus:
-#    image: prom/prometheus:v2.17.1
-#    container_name: prometheus
-##    command:
-##      - '--config.file=/etc/prometheus/prometheus.yml'
-##      - '--storage.tsdb.path=/prometheus'
-##      - '--web.console.libraries=/etc/prometheus/console_libraries'
-##      - '--web.console.templates=/etc/prometheus/consoles'
-##      - '--storage.tsdb.retention.time=200h'
-##      - '--web.enable-lifecycle'
-#    restart: unless-stopped
-#    ports:
-#      - 9090:9090
-#    volumes:
-#      - ./prometheus:/etc/prometheus
-#      - prometheus:/prometheus
-
 volumes:
+  swag:
+    external: false
   grafana:
     external: false
   media:
     external: false
   postgres:
     external: false
-#  prometheus:
-#    external: false

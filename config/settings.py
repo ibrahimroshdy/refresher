@@ -21,12 +21,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@*#iieuwq8q73gk)v+k!8y742!k8#ny0zk0gay3%ngid(vw%8%'
+SECRET_KEY = os.environ.get("SECRET_KEY", 'django-insecure-@*#iieuwq8q73gk)v+k!8y742!k8#ny0zk0gay3%ngid(vw%8%')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get("DEBUG", 'true').lower() == 'true')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["localhost",
+                 "127.0.0.1",
+                 "speedtest.withnoedge.tech"]
 
 # Application definition
 
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -107,18 +110,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = "Africa/Cairo"
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 # Static files setup (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -128,9 +126,9 @@ FIXTURE_DIRS = [os.path.join(BASE_DIR, 'config/fixtures')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Redis Configuration Options
 REDIS_SERVER_HOST = os.environ.get("REDIS_SERVER_HOST", 'localhost')
 REDIS_SERVER_PORT = os.environ.get("REDIS_SERVER_PORT", 6379)
 
