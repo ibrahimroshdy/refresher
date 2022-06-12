@@ -12,7 +12,7 @@ services:
       - PGID=1000
       - TZ=Europe/London
       - URL=withnoedge.tech
-      - SUBDOMAINS=speedtest
+      - SUBDOMAINS=speedtester
       - ONLY_SUBDOMAINS=true
       - VALIDATION=http
     volumes:
@@ -38,11 +38,11 @@ services:
         - grafana:/var/lib/grafana
       depends_on:
         - swag
-  
+
   # Refresher Backend Service
   refresherbackend:
     image: refresherbackend
-    container_name: refresherbackend
+    container_name: speedtester
     restart: always
     expose:
       - 8000
