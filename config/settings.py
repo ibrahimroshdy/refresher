@@ -28,10 +28,9 @@ DEBUG = bool(os.environ.get("DEBUG", 'true').lower() == 'true')
 
 ALLOWED_HOSTS = ["localhost",
                  "127.0.0.1",
-                 "speedtest.withnoedge.tech"]
+                 os.environ.get("ALLOWED_URL", "speedtester.withnoedge.tech")]
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
