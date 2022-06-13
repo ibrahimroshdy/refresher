@@ -21,3 +21,13 @@ providers:
 #    allowUiUpdates: true
 #    options:
 #      path: /etc/grafana/provisioning/dashboards/prometheus
+
+  - name: 'PostgresSQL'
+    orgId: 1
+    folder: ''
+    type: file
+    disableDeletion: false
+    editable: true
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards/postgres

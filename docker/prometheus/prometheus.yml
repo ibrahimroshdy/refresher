@@ -24,11 +24,11 @@ scrape_configs:
     # scheme defaults to 'http'.
 
     static_configs:
-      - targets: ['host.docker.internal:9090'] # Only works on Docker Desktop for Mac
+      - targets: ['host.docker.internal:9090', '0.0.0.0:9090']
 
   - job_name: 'docker'
          # metrics_path defaults to '/metrics'
          # scheme defaults to 'http'.
 
     static_configs:
-      - targets: ['docker.for.mac.host.internal:9323']
+      - targets: ['host.docker.internal:9323', 'localhost:9323', 'localhost:9187', 'postgres_exporter:9187']
