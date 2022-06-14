@@ -22,6 +22,7 @@ datasources:
     database: refresher
     editable: true
     version: 10
+    isDefault: true
     jsonData:
       sslmode: "disable" # disable/require/verify-ca/verify-full
       connMaxLifetime: 14400  # Grafana v5.4+
@@ -30,11 +31,9 @@ datasources:
       tlsAuth: false
       tlsAuthWithCACert: false
 
-#  - name: Prometheus
-#    type: prometheus
-#    access: proxy
-#    orgId: 1
-#    url: http://prometheus:9090
-#    basicAuth: false
-#    isDefault: true
-#    editable: true
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    basicAuth: false
+    editable: true
