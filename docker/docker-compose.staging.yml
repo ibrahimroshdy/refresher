@@ -132,6 +132,29 @@ services:
       - ./prometheus:/etc/prometheus
       - prometheus:/prometheus
 
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: monitoring_node_exporter
+    restart: always
+    ports:
+      - 9100:9100
+    links:
+      - prometheus
+
+  cadvisor:
+    image: google/cadvisor:latest
+    container_name: monitoring_cadvisor
+    restart: always
+    volumes:
+      - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - 8080:8000
+    links:
+      - prometheus
+
   postgres_exporter:
     image: bitnami/postgres-exporter:latest
     container_name: postgres_exporter
