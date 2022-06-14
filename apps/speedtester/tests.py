@@ -15,10 +15,9 @@ class ServersSpeeedTestCase(TestCase):
     def test_creation(self):
         if self.server and self.speedtest:
             logger.success('DB SUCCESS')
+            logger.info(f'{self.server.__str__()})')
+            logger.info(f'{self.speedtest.__str__()})')
             assert True
-        else:
-            logger.error('DB ERROR')
-            assert False
 
     def test_process_speedtest(self):
         speedtest_res, best, servers = process_speedtest_test()
@@ -26,8 +25,6 @@ class ServersSpeeedTestCase(TestCase):
             logger.success(speedtest_res)
             logger.success(best)
             assert True
-        else:
-            assert False
 
     def tearDown(self):
         ServersModel.objects.all().delete()
