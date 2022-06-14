@@ -1,7 +1,6 @@
 import os
 
 import django
-from loguru import logger
 
 #Setup django to be able to access the settings file
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
