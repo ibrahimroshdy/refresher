@@ -12,3 +12,6 @@ docker login ghcr.io -u $user -p $token
 docker pull ghcr.io/$user/refresher:$branch
 docker tag ghcr.io/$user/refresher:$branch refresherbackend
 docker rmi ghcr.io/$user/refresher:$branch
+
+#remove old images
+docker rmi $(docker images -f "dangling=true" -q)

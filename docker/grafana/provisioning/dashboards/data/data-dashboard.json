@@ -406,7 +406,7 @@
           ]
         }
       ],
-      "thresholds": "10,35",
+      "thresholds": "50,150",
       "title": "Pinged Servers",
       "type": "grafana-worldmap-panel",
       "unitPlural": "",
