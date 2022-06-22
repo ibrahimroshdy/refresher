@@ -9,7 +9,9 @@ from apps.speedtester.utils import RefresherSpeedtest
 @shared_task
 def process_speedtest():
     """
-
+        A celery task that will be picked up.
+        The task creates a speedtest instance and collects information of the conducted speedtest
+        and adds them to the database using Django ORM.
     """
     refresher_speedtest = RefresherSpeedtest()
     speedtest_res = refresher_speedtest.get_speedtest()

@@ -50,7 +50,7 @@ understand in introduction how to develop, stage, release and maintain projects.
 > Imagine you need a cronjob (schdulded) based application that excutes specific tasks at specific intervals of your choice **and** stores information regarding these tasks (output, logs…etc.). Moreover, you need to monitor these 
 tasks in terms of successes and failures. You also need to monitor your system usage, database usage and your docker services (containers) health. 
 Finally, you need to visualize all of these, rather than looking at tens of scrambled data in tables, queries on your console.
-> ___
+> 
 > After all that, you need to serve your application(s) pubically and securely.
 
 </details>
@@ -102,12 +102,11 @@ usage in this project will HTTP(s) requests via a Web Browser. We will also need
 
 Secondly, you need to route your applications to the ports you 
 will be mainly using, for example, by default `HTTPS runs on port 443` and `ssh run on port 22`. 
-> So simply speaking, having a machine in a local network with `port 22` exposed, you can now use your terminal to
-> connect to that machine's console and if you have a webserver running on `port 9000`, 
-> you can simply write the local machine's IP in your brower with `port 9000` and **it works**!
-> 
-> 
-> Complexly speaking, we are doing the same thing but on a larger scale.
+So simply speaking, having a machine in a local network with `port 22` exposed, you can now use your terminal to
+connect to that machine's console and if you have a webserver running on `port 9000`, 
+you can simply write the local machine's IP in your brower with `port 9000` and **it works**!
+
+Complexly speaking, we are doing the same thing but on a larger scale.
 
 So meanwhile, *SWAG* takes care of distributing, securing and routing of our three main applications. 
 

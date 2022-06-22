@@ -13,6 +13,10 @@ class ServersSpeeedTestCase(TestCase):
         self.speedtest = baker.make(SpeedtesterModel)
 
     def test_creation(self):
+        """
+        Tests database creation
+        :return: True if a server and speedtest instances were created sucessfully.
+        """
         if self.server and self.speedtest:
             logger.success('DB SUCCESS')
             logger.info(f'{self.server.__str__()})')
@@ -20,6 +24,10 @@ class ServersSpeeedTestCase(TestCase):
             assert True
 
     def test_process_speedtest(self):
+        """
+        Processess a speedtest that gets the result, best server, and the pinged servers.
+        :return: True if the speedtest is processed and no errors happened.
+        """
         speedtest_res, best, servers = process_speedtest_test()
         if speedtest_res:
             logger.success(speedtest_res)
