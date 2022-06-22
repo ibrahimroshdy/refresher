@@ -10,6 +10,10 @@ from .abstract_speedtest import RefresherSpeedtest
 
 
 def process_speedtest_test():
+    """
+
+    :return:
+    """
     refresher_speedtest = RefresherSpeedtest()
     speedtest_res = refresher_speedtest.get_speedtest()
     best = refresher_speedtest.get_best_server()
