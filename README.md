@@ -12,7 +12,7 @@ environment that is ready for experimenting ideas and expansion.
         <li>
             Refresher Project
               <ul>
-                <li><a href="#project-breif">Project Brief</a></li>
+                <li><a href="#overview">Overview</a></li>
                 <li><a href="#refresher-usecase">Refresher Usecase</a></li>
               </ul>
         </li>
@@ -39,19 +39,23 @@ environment that is ready for experimenting ideas and expansion.
 <details open="open">
   <summary><h2 style="display: inline-block">Refresher Project</h2></summary>
 
-### Project Breif
+### Overview
 Refresher project is a complete infrastructure that embodies different technologies to serve a series of tasks. 
 The refresher project aims to create a complete guide in every aspect of those technologies
 to serve as a guide or a template for jumpstarting similar projects. 
 There is basically no definitive aim for this project, rather than having an educational pipeline that is so complex yet so simple to 
 understand in introduction how to develop, stage, release and maintain projects.
-    
-> #### Refresher Usecase
-> Imagine you need a cronjob (schdulded) based application that excutes specific tasks at specific intervals of your choice **and** stores information regarding these tasks (output, logs…etc.). Moreover, you need to monitor these 
+
+#### Refresher Usecase
+Imagine you need a cronjob (schdulded) based application that excutes specific tasks at 
+specific intervals of your choice **and** stores information regarding these tasks (output, logs…etc.). Moreover, you need to monitor these 
 tasks in terms of successes and failures. You also need to monitor your system usage, database usage and your docker services (containers) health. 
-Finally, you need to visualize all of these, rather than looking at tens of scrambled data in tables, queries on your console.
-> 
-> After all that, you need to serve your application(s) pubically and securely.
+Finally, you need to visualize all of these, rather than looking at tens of scrambled data in tables, queries on your console. 
+After all that, you need to serve your application(s) pubically and securely.
+
+The refresher project is a Django backend using PostgresSQL with celery schedueler and a redis broker. The only app in the refresher
+project is a simple speedtester app. The speedtester app mainly runs internet speedtests every specific interval **using** celery workers
+and stores the `download`, `upload` and `url` of each test to the PostgresSQL using Django's ORM.
 
 </details>
 
