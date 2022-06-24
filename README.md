@@ -6,8 +6,13 @@
 [![codecov](https://codecov.io/gh/ibrahimroshdy/refresher/branch/main/graph/badge.svg?token=G77HXOM8GX)](https://codecov.io/gh/ibrahimroshdy/refresher)
 
 ## Introduction
-Refresher project aims to refresh technical skill and create an 
-environment that is ready for experimenting ideas and expansion.
+You probably have tons of ideas laying around in some notebook about a specific project you want to start implementing. 
+You probably also google the same set of instructions over and over. You always forget some of the syntax in a `Dockerfile`.
+
+Instead, why don't you have a complete project that grows as your experience grows and works as your own technical refresher. 
+The Refresher project aims to refresh technical skill and create an environment that is ready for experimenting ideas and expansion. 
+Each version of this project should project a design scheme. 
+This is refersher v1.
 
 <summary><h4 style="display: inline-block">Table of Contents</h4></summary>
     <ol>
@@ -53,7 +58,7 @@ Imagine you need a cronjob (scheduled) based application that executes specific 
 specific intervals of your choice **and** stores information regarding these tasks (output, logs…etc.). Moreover, you need to monitor these 
 tasks in terms of successes and failures. You also need to monitor your system usage, database usage and your docker services (containers) health. 
 Finally, you need to visualize all of these, rather than looking at tens of scrambled data in tables, queries on your console. 
-After all that, you need to serve your application(s) publically and securely.
+After all that, you need to serve your application(s) publicly and securely.
 
 The refresher project is a Django backend using PostgresSQL database with asynchronous task scheduler - celery -  using a Redis broker. 
 There is one Django app in the refresher project called **speedtester** app. 
@@ -113,7 +118,7 @@ Running on Azure Compute Virtual Machine and using Docker to run containers.
 In V2 and onwards, refresher project will change its architecture as the project grows.
 `Refresher V1` is a monolithical single host project using dockerized containers sharing the same network to serve different purposes. 
 
->There are so many wrongs here but for a jumpstart option this **can** be considred.
+>There are so many wrongs here but for a jumpstart option this **can** be considered.
 
 ![](images/architecture/refresher-architecture.png)
 
@@ -190,7 +195,7 @@ So meanwhile, *SWAG* takes care of distributing, securing and routing of our thr
 
 </details>
 
-## GitHub
+## Getting Started
 1. CI
    1. CircleCI
    2. Github Actions
