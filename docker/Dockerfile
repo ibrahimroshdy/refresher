@@ -46,10 +46,10 @@ COPY apps apps
 RUN mkdir static
 
 # Entrypoint script
-COPY ./scripts/run.sh .
+COPY ./scripts/entrypoint.sh .
 
 # Make file executable
-RUN chmod +x run.sh
+RUN chmod +x entrypoint.sh
 
 # Entrypoint
-CMD ["/app/run.sh"]
+CMD ["/app/entrypoint.sh"]

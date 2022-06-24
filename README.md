@@ -53,9 +53,33 @@ tasks in terms of successes and failures. You also need to monitor your system u
 Finally, you need to visualize all of these, rather than looking at tens of scrambled data in tables, queries on your console. 
 After all that, you need to serve your application(s) pubically and securely.
 
-The refresher project is a Django backend using PostgresSQL with celery schedueler and a redis broker. The only app in the refresher
-project is a simple speedtester app. The speedtester app mainly runs internet speedtests every specific interval **using** celery workers
-and stores the `download`, `upload` and `url` of each test to the PostgresSQL using Django's ORM.
+The refresher project is a Django backend using PostgresSQL database with asynchronous task scheduler - celery -  using a redis broker. 
+There is one Django app in the refresher project called **speedtester** app. 
+The speedtester app mainly runs internet speedtests every specific interval **using** celery workers 
+and stores the `download`, `upload`  speeds and `url` of each test to the PostgresSQL using Django's ORM.
+Using celery beat database scheduler, the database now holds information about celery task and defined interval. 
+This means you can instruct a specific task written in your backend to run on an interval simply through your admin portal. 
+
+![](static/refresher-speedtester.png)
+
+The speedtester app now has some basic ideas to build an infrastructure around it.
+1. A fully functioning **Django** backend
+2. **Asynchronous Task Scheduler** (basically well managed cronjobs)
+3. A **PostgresSQL** database
+
+The speedtester collects  
+`download`, `upload`  speeds and `url` of each conducteded speedtest `
+apps.speedtester.tasks.process_speedtest`. 
+In doing so it also retains a list of the pinged servers' details per 
+speedtest for example (country, country code, coodrinates).
+With all of that saved in a database we now **need** — can —  to visualize our data. 
+
+![](static/refresher-grafana-speedtest-dashboard.png)
+
+Above, is a [Grafana](https://grafana.com/) dashboard that visulaes the datatables of the `speedtester` application.
+This can easily be done by connecting grafana to the database.
+
+![](static/refresher-speedtester-grafana-db.png)
 
 </details>
 
