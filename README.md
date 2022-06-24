@@ -55,16 +55,28 @@ tasks in terms of successes and failures. You also need to monitor your system u
 Finally, you need to visualize all of these, rather than looking at tens of scrambled data in tables, queries on your console. 
 After all that, you need to serve your application(s) publically and securely.
 
-The refresher project is a Django backend using PostgresSQL database with asynchronous task scheduler - celery -  using a redis broker. 
+The refresher project is a Django backend using PostgresSQL database with asynchronous task scheduler - celery -  using a Redis broker. 
 There is one Django app in the refresher project called **speedtester** app. 
 The speedtester app mainly runs internet speedtests every specific interval **using** celery workers 
 and stores the `download`, `upload`  speeds and `url` of each test to the PostgresSQL using Django's ORM.
 Using celery beat database scheduler, the database now holds information about celery task and defined interval. 
 This means you can instruct a specific task written in your backend to run on an interval simply through your admin portal. 
 
+A user adds a periodic task using the **Django** admin portal, this automatically adds the periodic task 
+and its defined interval in the designated data tables in the database. 
+Celery — Asynchronous Task Scheduler — has two major processes running (celery **worker** and celery **beat**).
+Using `django-celery-beat` application, there is an established connection between **Django** and **Celery**, where the 
+**Celery Beat** scheduler process is now looking for tasks that are stored in the database. In other words, Django sets 
+celery beat to look for scheduled tasks stored in the designated data tables mentioned above. Celery beat then collects those tasks 
+and adds them to a broker (**Redis**) — fancy word for an inmemory db. Those tasks in Redis are waiting to be picked up 
+by a **Celery Worker** — the responsible process for executing task units. Finally, the task itself — the speedtester unit in this case — 
+is executed where it uses `RefresherSpeedtest()` class to perform an internet speed test and 
+stores data into a **PostgresSQL** database via **Django's** ORM as a db entry. 
+Now the worker marks the task as completed and picks up the next task in line. 
+
 ![](images/architecture/refresher-speedtester.png)
 
-The speedtester app now has some basic ideas to build an infrastructure around it.
+The refresher project now has some basic ideas to build an infrastructure around it.
 1. A fully functioning **Django** backend
 2. **Asynchronous Task Scheduler** (basically well managed cronjobs)
 3. A **PostgresSQL** database
