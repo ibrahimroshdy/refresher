@@ -1,5 +1,9 @@
-upstream speedtester {
-    server speedtester:8000;
+# https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
+# https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/How-to-setup-Nginx-reverse-proxy-servers-by-example
+# https://docs.linuxserver.io/general/swag#reverse-proxy
+
+upstream refresherbackend {
+    server refresherbackend:8000;
 }
 
 server {
@@ -9,14 +13,14 @@ server {
         # all ssl related config moved to ssl.conf
         include /config/nginx/ssl.conf;
 
-        #path to proxy hosted speedtester
+        #path to proxy hosted refresherbackend
        location / {
         try_files $uri @proxy_to_app;
      }
 
         location @proxy_to_app {
 
-         proxy_pass http://speedtester;
+         proxy_pass http://refresherbackend;
 
          proxy_http_version 1.1;
          proxy_set_header Upgrade $http_upgrade;

@@ -105,6 +105,183 @@
             "mode": "thresholds"
           },
           "mappings": [],
+          "max": 3,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "Mbits"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 3,
+        "y": 0
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  min(download) AS \"min down\",\n  max(download) AS \"max down\"\nFROM speedtester_speedtestermodel",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "lat"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "speedtester_serversmodel",
+          "timeColumn": "created",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Min/Max Download Speed",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 3,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "Mbits"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 6,
+        "y": 0
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  min(upload) AS \"min upload\",\n  max(upload) AS \"max upload\"\nFROM speedtester_speedtestermodel",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "lat"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "speedtester_serversmodel",
+          "timeColumn": "created",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Min/Max Upload Speed",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "from": "",
+              "id": 1,
+              "text": "",
+              "to": "",
+              "type": 1,
+              "value": ""
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -113,19 +290,19 @@
                 "value": null
               },
               {
-                "color": "red",
+                "color": "green",
                 "value": 80
               }
             ]
           },
-          "unit": "short"
+          "unit": "Mbits"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 9,
-        "x": 3,
+        "w": 15,
+        "x": 9,
         "y": 0
       },
       "id": 4,
@@ -204,7 +381,91 @@
           ]
         }
       ],
-      "title": "Speed Test D/U",
+      "title": "Last Speed Test D/U",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 3,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "Mbits"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 6,
+        "x": 3,
+        "y": 6
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  avg(download) AS \"avg download\",\n  avg(upload) AS \"avg upload\"\nFROM speedtester_speedtestermodel",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "lat"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "speedtester_serversmodel",
+          "timeColumn": "created",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "AVG D/U Speed",
       "type": "stat"
     },
     {
@@ -254,10 +515,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 0
+        "h": 16,
+        "w": 9,
+        "x": 0,
+        "y": 8
       },
       "id": 10,
       "options": {
@@ -350,9 +611,9 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 14,
-        "w": 24,
-        "x": 0,
+        "h": 16,
+        "w": 15,
+        "x": 9,
         "y": 8
       },
       "hideEmpty": false,
@@ -361,7 +622,7 @@
       "initialZoom": "7.5",
       "locationData": "table",
       "mapCenter": "custom",
-      "mapCenterLatitude": "30",
+      "mapCenterLatitude": "51",
       "mapCenterLongitude": "32",
       "maxDataPoints": 1,
       "mouseWheelZoom": true,
@@ -406,7 +667,7 @@
           ]
         }
       ],
-      "thresholds": "50,150",
+      "thresholds": "100,350",
       "title": "Pinged Servers",
       "type": "grafana-worldmap-panel",
       "unitPlural": "",
@@ -414,6 +675,7 @@
       "valueName": "current"
     }
   ],
+  "refresh": false,
   "schemaVersion": 27,
   "style": "dark",
   "tags": [],
@@ -421,12 +683,12 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-10d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Speed Test Dashboard",
   "uid": "SvuObl97k",
-  "version": 2
+  "version": 4
 }
