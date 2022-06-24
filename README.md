@@ -15,7 +15,7 @@ environment that is ready for experimenting ideas and expansion.
             Refresher Project
               <ul>
                 <li><a href="#overview">Overview</a></li>
-                <li><a href="#refresher-usecase">Refresher Usecase</a></li>
+                <li><a href="#refresher-use-case">Refresher Use case</a></li>
               </ul>
         </li>
         <li>
@@ -48,12 +48,12 @@ to serve as a guide or a template for jumpstarting similar projects.
 There is basically no definitive aim for this project, rather than having an educational pipeline that is so complex yet so simple to 
 understand in introduction how to develop, stage, release and maintain projects.
 
-#### Refresher Usecase
-Imagine you need a cronjob (schdulded) based application that excutes specific tasks at 
+#### Refresher Use Case
+Imagine you need a cronjob (scheduled) based application that executes specific tasks at 
 specific intervals of your choice **and** stores information regarding these tasks (output, logs…etc.). Moreover, you need to monitor these 
 tasks in terms of successes and failures. You also need to monitor your system usage, database usage and your docker services (containers) health. 
 Finally, you need to visualize all of these, rather than looking at tens of scrambled data in tables, queries on your console. 
-After all that, you need to serve your application(s) pubically and securely.
+After all that, you need to serve your application(s) publically and securely.
 
 The refresher project is a Django backend using PostgresSQL database with asynchronous task scheduler - celery -  using a redis broker. 
 There is one Django app in the refresher project called **speedtester** app. 
@@ -69,15 +69,15 @@ The speedtester app now has some basic ideas to build an infrastructure around i
 2. **Asynchronous Task Scheduler** (basically well managed cronjobs)
 3. A **PostgresSQL** database
 
-The speedtester collects `download`, `upload`  speeds and `url` of each conducteded speedtest
+The speedtester collects `download`, `upload`  speeds and `url` of each conducted speedtest
 `apps.speedtester.tasks.process_speedtest`. In doing so it also retains a list of the pinged servers' details per 
-speedtest for example (country, country code, coodrinates).
-With all of that saved in a database we now **need** — can —  to visualize our data. 
+speedtest for example (country, country code, coordinates).
+With all of that saved in a database, it now **needs** — can —  to visualize our data. 
 
 ![](images/screenshots/refresher-grafana-speedtest-dashboard.png)
 
-Above, is a [Grafana](https://grafana.com/) dashboard that visulaes the datatables of the `speedtester` application.
-This can easily be done by connecting grafana to the database.
+Above, is a [Grafana](https://grafana.com/) dashboard that visuals the data tables of the `speedtester` application.
+This can easily be done by connecting Grafana to the database.
 
 ![](images/architecture/refresher-speedtester-grafana-db.png)
 
@@ -133,8 +133,8 @@ usage in this project will HTTP(s) requests via a Web Browser. We will also need
 Secondly, you need to route your applications to the ports you 
 will be mainly using, for example, by default `HTTPS runs on port 443` and `ssh run on port 22`. 
 So simply speaking, having a machine in a local network with `port 22` exposed, you can now use your terminal to
-connect to that machine's console and if you have a webserver running on `port 9000`, 
-you can simply write the local machine's IP in your brower with `port 9000` and **it works**!
+connect to that machine's console and if you have a web server running on `port 9000`, 
+you can simply write the local machine's IP in your browser with `port 9000` and **it works**!
 
 Complexly speaking, we are doing the same thing but on a larger scale.
 
@@ -150,6 +150,7 @@ So meanwhile, *SWAG* takes care of distributing, securing and routing of our thr
 
 <details open="open">
   <summary><h2 style="display: inline-block">Code</h2></summary>
+
 
 ### Folder Structure
 
