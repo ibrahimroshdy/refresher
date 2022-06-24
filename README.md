@@ -60,7 +60,7 @@ and stores the `download`, `upload`  speeds and `url` of each test to the Postgr
 Using celery beat database scheduler, the database now holds information about celery task and defined interval. 
 This means you can instruct a specific task written in your backend to run on an interval simply through your admin portal. 
 
-![](static/refresher-speedtester.png)
+![](images/architecture/refresher-speedtester.png)
 
 The speedtester app now has some basic ideas to build an infrastructure around it.
 1. A fully functioning **Django** backend
@@ -74,12 +74,12 @@ In doing so it also retains a list of the pinged servers' details per
 speedtest for example (country, country code, coodrinates).
 With all of that saved in a database we now **need** — can —  to visualize our data. 
 
-![](static/refresher-grafana-speedtest-dashboard.png)
+![](images/screenshots/refresher-grafana-speedtest-dashboard.png)
 
 Above, is a [Grafana](https://grafana.com/) dashboard that visulaes the datatables of the `speedtester` application.
 This can easily be done by connecting grafana to the database.
 
-![](static/refresher-speedtester-grafana-db.png)
+![](images/architecture/refresher-speedtester-grafana-db.png)
 
 </details>
 
@@ -93,7 +93,7 @@ In this section, the referesher project's tech stack is visualized and explained
 The tech stack is a chart with all the components and tools used to build this project and
 not just technical tools but also project management tools, Continuous Integration (CI), code coverage as well. 
 
-![](static/refresher-techstack.png)
+![](images/architecture/refresher-techstack.png)
 
 ### Architecture
 The refresher project V1 runs on a single host machine (virtual machine) to simplify the architecture visualization. 
@@ -102,7 +102,7 @@ In V2 and onwards, refresher project will change its architecture as the project
 `Refresher V1` is a monolithical single host project using dockerized containers sharing the same network to serve different purposes. 
 `There are so many wrongs here but for a starter pack option this can be considred.`
 
-![](static/refresher-architecture.png)
+![](images/architecture/refresher-architecture.png)
 
 
 > Well, let's break this down. The refresher project has single subdomain attached to it which is `speedtester.withnoedge.tech`
