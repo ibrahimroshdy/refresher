@@ -19,7 +19,7 @@ jobs:
           command: |
             pip install poetry && poetry config virtualenvs.create false;
             poetry install --no-interaction --no-ansi;
-            bash scripts/local_migrate.s;
+            bash scripts/local_migrate.sh;
             python manage.py test apps; 
 
 # Invoke jobs via workflows
