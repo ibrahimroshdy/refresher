@@ -5,22 +5,27 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  list-files:
+  build-test:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
-      - image: cimg/base:stable
+      - image: python:3.7-slim-stretch
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
       - run:
           name: "List files"
-          command: "ls -la"
+          command: |
+            pip install poetry && poetry config virtualenvs.create false;
+            poetry install --no-interaction --no-ansi;
+            mkdir static;
+            bash scripts/local_migrate.sh;
+            python manage.py test apps; 
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  list-files-workflow:
+  build-test-workflow:
     jobs:
-      - list-files
+      - build-test
