@@ -100,7 +100,8 @@ The refresher project V1 runs on a single host machine (virtual machine) to simp
 Running on Azure Compute Virtual Machine and using Docker to run containers. 
 In V2 and onwards, refresher project will change its architecture as the project grows.
 `Refresher V1` is a monolithical single host project using dockerized containers sharing the same network to serve different purposes. 
-`There are so many wrongs here but for a starter pack option this can be considred.`
+
+>There are so many wrongs here but for a jumpstart option this **can** be considred.
 
 ![](images/architecture/refresher-architecture.png)
 
@@ -179,5 +180,8 @@ So meanwhile, *SWAG* takes care of distributing, securing and routing of our thr
 
 ## GitHub
 1. CI
-2. workflows
-3. codecov. 
+   1. CircleCI
+   2. Github Actions
+      1. Workflows
+      2. Actions
+2. codecov. 
