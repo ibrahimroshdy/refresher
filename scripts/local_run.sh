@@ -9,7 +9,6 @@ echo "Running makemigrations and migrate..."
 python3 manage.py makemigrations
 python3 manage.py migrate
 
-
 echo "Loading Fixtures..."
 python3 manage.py loaddata django_celery_fixtures
 

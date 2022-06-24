@@ -35,6 +35,7 @@ This is refersher v1.
             Code
               <ul>
                 <li><a href="#folder-structure">Folder Structure</a></li>
+                <li><a href="#getting-started">Getting Started</a></li>
               </ul>
         </li>
 </ol>
@@ -179,21 +180,19 @@ So meanwhile, *SWAG* takes care of distributing, securing and routing of our thr
 | | |  __/  _| | |  __/\__ \ | | |  __/ |   
 |_|  \___|_| |_|  \___||___/_| |_|\___|_|   
 
-        ├── README.md
-        ├── apps
-        ├── config
-        ├── docker
-        ├── manage.py
-        ├── nginx
-        ├── pyproject.toml
-        ├── requirements.txt
-        ├── scripts
-        ├── static
-        ├── staticfiles
-        └── templates
-```
+         ├── README.md # Readme Markdown 
+         ├── apps # Django apps
+         ├── docker # docker folder (Dockerfile, docker-compose, grafana and prometheus setup)
+         ├── images # screenshots
+         ├── manage.py 
+         ├── nginx # nginx conf files
+         ├── pyproject.toml # python packages list using poetry 
+         ├── refresher_config # django main configuration app
+         ├── requirements.txt # python packages requirements list 
+         ├── scripts # shell scripts 
+         └── static # static files for django project
 
-</details>
+```
 
 ## Getting Started
 1. CI
@@ -202,3 +201,7 @@ So meanwhile, *SWAG* takes care of distributing, securing and routing of our thr
       1. Workflows
       2. Actions
 2. codecov. 
+
+
+
+</details>
