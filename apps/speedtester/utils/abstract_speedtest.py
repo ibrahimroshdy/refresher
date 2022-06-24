@@ -5,8 +5,8 @@ import speedtest
 from django.db.utils import IntegrityError
 from loguru import logger
 
-#Setup django to be able to access the settings file
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+# Setup django to be able to access the settings file
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'refresher_config.settings')
 django.setup()
 
 from apps.speedtester.models import ServersModel, SpeedtesterModel
@@ -54,11 +54,9 @@ class RefresherSpeedtest:
 
         :return:
         List of server dicts that are within reach to the speedtest
-
         """
         servers = [i for i in [t for t in zip(*self.speedtester.servers.values())][0]]
         return servers
-
 
 # if __name__ == '__main__':
 #     refresher_speedtest = RefresherSpeedtest()

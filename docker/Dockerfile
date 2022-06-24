@@ -1,6 +1,8 @@
-# Multistage build
-# 1. Base image as python for requirments/env
+# Multistage build to optimize caching 
+
+# 1. Base image as python for system requirment (Installing requirements for debian environment)
 FROM python:3.7-slim-stretch as base
+# Needed by github container registry
 LABEL org.opencontainers.image.source https://github.com/ibrahimroshdy/refresher
 RUN apt-get update \
 && apt-get install -y --no-install-recommends git libpq-dev\
@@ -8,7 +10,8 @@ RUN apt-get update \
 && rm -rf /var/lib/apt/lists/*
 COPY .git /app/.git
 
-FROM base as dependencies
+# 2. Python packages and virtual env setup
+FROM base as sys_setup
 
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -16,9 +19,10 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 RUN python -m venv /opt/venv
-# Make sure we use the virtualenv:
+# Make sure we use the venv (virtual environment)
 ENV PATH="/opt/venv/bin:$PATH"
 
+# Install python packages and dependencies
 RUN pip install poetry && \
     poetry config virtualenvs.create false
 
@@ -27,11 +31,11 @@ COPY pyproject.toml ./
 RUN poetry install --no-interaction --no-ansi
 
 # Multistage build
-# 2. Changes from the backend files
+# 3. Changes from the backend files
 FROM base as final
 
-# copy installed deps from dependencies image
-COPY --from=dependencies /opt/venv /opt/venv
+# copy installed deps from base (known as sys_setup) aimage
+COPY --from=sys_setup /opt/venv /opt/venv
 # Make sure we use the virtualenv:
 ENV PATH="/opt/venv/bin:$PATH"
 
@@ -39,17 +43,18 @@ EXPOSE 8000
 WORKDIR /app
 
 # copying working files at workdir
+
 # Django
 COPY manage.py .
-COPY config config
+COPY refresher_config refresher_config
 COPY apps apps
 RUN mkdir static
 
 # Entrypoint script
-COPY ./scripts/run.sh .
+COPY ./scripts/entrypoint.sh .
 
 # Make file executable
-RUN chmod +x run.sh
+RUN chmod +x entrypoint.sh
 
 # Entrypoint
-CMD ["/app/run.sh"]
+CMD ["/app/entrypoint.sh"]

@@ -11,7 +11,7 @@ providers:
     allowUiUpdates: true
     options:
       path: /etc/grafana/provisioning/dashboards/data
-#
+
   - name: 'Prometheus'
     orgId: 1
     folder: ''

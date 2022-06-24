@@ -1,32 +1,34 @@
-# docker image action.yml
+# docker build push image action.yml
 name: 'Docker Build and Push'
 description: 'Build, push docker images to container registry'
 inputs:
-  username:
+  username: # Username of container registry
     description: 'username for registry'
     required: true
     default: 'none'
-  password:
+  password: # Password of user to container registry
     description: 'password for registry'
     required: true
     default: 'none'
-  registry: # id of input
+  registry: # Container registry name (cr uri)
     description: 'Registry name (ex. ghcr.io, registry.gitlab.com)'
     required: true
     default: 'ghcr.io'
-  repository:
-    description: 'repository name '
+  repository: # The repository name wo which the container will belong
+    description: 'repository name'
     required: true
     default: 'test'
-  tag: # id of input
+  tag: # The custom tag per image build (defualt: lastest)
     description: 'Custom tag for docker image'
     required: false
     default: 'latest'
-  file:
+  file: # Path of container building instructions (ex. Dockerfile)
     description: 'Path for dockerfile'
     required: true
     default: 'Dockerfile'
 
+# The action runs a composite set of instructions that will login to the registry, build using the instructions file
+# then push the built image to the registry with the identified tag
 runs:
   using: "composite"
   steps:
