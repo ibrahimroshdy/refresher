@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "refresher"
 version = "0.1.0"
-description = "Refresher project to gather thoughts and try out packages, insallments and different setups"
+description = "Refresher project to gather thoughts and try out packages, installments and different setups"
 authors = ["ibrahimroshdy <ibrahimabdelrahman@aucegypt.edu>"]
 
 [tool.poetry.dependencies]
