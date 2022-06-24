@@ -67,10 +67,8 @@ The speedtester app now has some basic ideas to build an infrastructure around i
 2. **Asynchronous Task Scheduler** (basically well managed cronjobs)
 3. A **PostgresSQL** database
 
-The speedtester collects  
-`download`, `upload`  speeds and `url` of each conducteded speedtest `
-apps.speedtester.tasks.process_speedtest`. 
-In doing so it also retains a list of the pinged servers' details per 
+The speedtester collects `download`, `upload`  speeds and `url` of each conducteded speedtest
+`apps.speedtester.tasks.process_speedtest`. In doing so it also retains a list of the pinged servers' details per 
 speedtest for example (country, country code, coodrinates).
 With all of that saved in a database we now **need** — can —  to visualize our data. 
 
