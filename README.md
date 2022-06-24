@@ -179,4 +179,4 @@ So meanwhile, *SWAG* takes care of distributing, securing and routing of our thr
 ## GitHub
 1. CI
 2. workflows
-3. codecov4. 
+3. codecov. 
