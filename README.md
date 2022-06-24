@@ -1,5 +1,7 @@
 # Refresher
 [![Python](https://upload.wikimedia.org/wikipedia/commons/f/fc/Blue_Python_3.7_Shield_Badge.svg)]()
+[![Docker](https://img.shields.io/badge/docker-v20.10.12-blue)]()
+[![Docker Compose](https://img.shields.io/badge/docker--compose-v1.25.0-blue)]()
 [![Refresher CI](https://github.com/ibrahimroshdy/refresher/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/ibrahimroshdy/refresher/actions/workflows/docker-image.yml)
 [![codecov](https://codecov.io/gh/ibrahimroshdy/refresher/branch/main/graph/badge.svg?token=G77HXOM8GX)](https://codecov.io/gh/ibrahimroshdy/refresher)
 
@@ -112,6 +114,8 @@ built-in certbot client that automates free SSL server certificate generation an
 SWAG has:
 1. [Certbot](https://certbot.eff.org/)
 2. [NGINX](https://www.nginx.com/)
+
+![](https://www.linuxserver.io/user/pages/content/images/2019/04/reverseproxy.png)
 
 Basically, there is the main domain name `withnoedge.tech` with a subdomain `speedtester` attached to it, 
 so it becomes `speedtester.withnoedge.tech` that *subdomain* now 

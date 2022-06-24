@@ -12,6 +12,7 @@ services:
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
       - grafana:/var/lib/grafana
+
   # Refresher Backend Service
   refresherbackend:
     build:
@@ -22,9 +23,8 @@ services:
     ports:
       - 8000:8000
     environment:
-      - SECRET_KEY=uwq8q73gk)v+k!8y742!k8#asdasduwq8q73gk)v+k!8y742!k8#
-      - DEBUG=false
-      - GUNICORN_SSL=false
+      - SECRET_KEY=aahckjadf^^^changeinproduction^^ajshjdjkhaskjdh
+      - DEBUG=True
       - DATABASE_URL=postgres://refresher:refresher@postgres:5432/refresher
       - REDIS_SERVER_HOST=redis
     volumes:
@@ -40,6 +40,9 @@ services:
       - FLOWER_PORT=8888
     ports:
       - 8888:8888
+    depends_on:
+      - swag
+      - redis
 
   celery_worker:
     build:
@@ -47,10 +50,10 @@ services:
       dockerfile: docker/Dockerfile
     container_name: celery_worker
     restart: always
-    command: /bin/bash -c "celery -A config.celery_app worker --loglevel=info"
+    command: /bin/bash -c "celery -A refresher_config.celery_app worker --loglevel=info"
     environment:
+      - SECRET_KEY=aahckjadf^^^changeinproduction^^ajshjdjkhaskjdh
       - DEBUG=True
-      - GUNICORN_SSL=false
       - DATABASE_URL=postgres://refresher:refresher@postgres:5432/refresher
       - REDIS_SERVER_HOST=redis
     volumes:
@@ -65,10 +68,10 @@ services:
       dockerfile: docker/Dockerfile
     container_name: celery_beat
     restart: always
-    command: /bin/bash -c "celery -A config.celery_app beat --loglevel=info"
+    command: /bin/bash -c "celery -A refresher_config.celery_app beat --loglevel=info"
     environment:
+      - SECRET_KEY=aahckjadf^^^changeinproduction^^ajshjdjkhaskjdh
       - DEBUG=True
-      - GUNICORN_SSL=false
       - DATABASE_URL=postgres://refresher:refresher@postgres:5432/refresher
       - REDIS_SERVER_HOST=redis
     volumes:
@@ -111,7 +114,7 @@ services:
 
   node-exporter:
     image: prom/node-exporter:latest
-    container_name: monitoring_node_exporter
+    container_name: node_exporter
     restart: always
     ports:
       - 9100:9100
@@ -120,7 +123,7 @@ services:
 
   cadvisor:
     image: google/cadvisor:latest
-    container_name: monitoring_cadvisor
+    container_name: cadvisor
     restart: always
     volumes:
       - /:/rootfs:ro

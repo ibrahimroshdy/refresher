@@ -2,8 +2,8 @@ import os
 
 import django
 
-#Setup django to be able to access the settings file
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+# Setup django to be able to access the settings file
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'refresher_config.settings')
 django.setup()
 
 from .abstract_speedtest import RefresherSpeedtest

@@ -21,4 +21,4 @@ echo "from django.contrib.auth import get_user_model; User = get_user_model(); p
 echo "Collecting static.."
 echo "yes" | python3 manage.py collectstatic
 
-gunicorn --bind 0.0.0.0:8000 config.wsgi
+gunicorn --bind 0.0.0.0:8000 refresher_config.wsgi

@@ -1,31 +1,77 @@
-version: "3"
+version: "2"
 
 services:
+  swag:
+    image: linuxserver/swag
+    restart: always
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TZ=Europe/London
+      - URL=withnoedge.tech
+      - SUBDOMAINS=speedtester
+      - ONLY_SUBDOMAINS=true
+      - VALIDATION=http
+    volumes:
+      - /home/withnoedge/swag:/config
+    ports:
+      - 443:443
+      - 80:80
+      - 8000:8000
+      - 3000:3000
+      - 8888:8888
+
+  grafana:
+      image: grafana/grafana:7.5.7
+      container_name: grafana
+      expose:
+        - 3000
+      restart: always
+      environment:
+        - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-worldmap-panel
+      volumes:
+        - ./grafana/provisioning:/etc/grafana/provisioning
+        - grafana:/var/lib/grafana
+      depends_on:
+        - swag
+
   # Refresher Backend Service
   refresherbackend:
     image: refresherbackend
     container_name: refresherbackend
     restart: always
-    ports:
-      - 8000:8000
+    expose:
+      - 8000
     environment:
-      - DEBUG=True
-      - GUNICORN_SSL=false
+      - DEBUG=false
       - DATABASE_URL=postgres://refresher:refresher@postgres:5432/refresher
       - REDIS_SERVER_HOST=redis
     volumes:
       - media:/app/media
     depends_on:
       - postgres
+      - swag
+
+  flower:
+    image: mher/flower
+    container_name: flower
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - FLOWER_PORT=8888
+    expose:
+      - 8888
+    depends_on:
+      - swag
+      - redis
 
   celery_worker:
     image: refresherbackend
     container_name: celery_worker
     restart: always
-    command: /bin/bash -c "celery -A config.celery_app worker --loglevel=info"
+    command: /bin/bash -c "celery -A refresher_config.celery_app worker --loglevel=info"
     environment:
-      - DEBUG=True
-      - GUNICORN_SSL=false
+      - DEBUG=False
       - DATABASE_URL=postgres://refresher:refresher@postgres:5432/refresher
       - REDIS_SERVER_HOST=redis
     volumes:
@@ -38,10 +84,9 @@ services:
     image: refresherbackend
     container_name: celery_beat
     restart: always
-    command: /bin/bash -c "celery -A config.celery_app beat --loglevel=info"
+    command: /bin/bash -c "celery -A refresher_config.celery_app beat --loglevel=info"
     environment:
-      - DEBUG=True
-      - GUNICORN_SSL=false
+      - DEBUG=False
       - DATABASE_URL=postgres://refresher:refresher@postgres:5432/refresher
       - REDIS_SERVER_HOST=redis
     volumes:
@@ -58,15 +103,6 @@ services:
     ports:
       - "127.0.0.1:6379:6379"
 
-  flower:
-    image: mher/flower
-    container_name: flower
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      - FLOWER_PORT=8888
-    ports:
-      - 8888:8888
-
   postgres:
     image: postgres:10
     container_name: postgres
@@ -81,41 +117,58 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
 
-  grafana:
-      image: grafana/grafana:7.5.7
-      container_name: grafana
-      ports:
-        - 3000:3000
-      restart: always
-      environment:
-        - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-worldmap-panel
-      volumes:
-        - ./grafana/provisioning:/etc/grafana/provisioning
-        - grafana:/var/lib/grafana
+  prometheus:
+    image: prom/prometheus:v2.17.1
+    container_name: prometheus
+    restart: always
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus:/prometheus
 
-#  prometheus:
-#    image: prom/prometheus:v2.17.1
-#    container_name: prometheus
-##    command:
-##      - '--config.file=/etc/prometheus/prometheus.yml'
-##      - '--storage.tsdb.path=/prometheus'
-##      - '--web.console.libraries=/etc/prometheus/console_libraries'
-##      - '--web.console.templates=/etc/prometheus/consoles'
-##      - '--storage.tsdb.retention.time=200h'
-##      - '--web.enable-lifecycle'
-#    restart: unless-stopped
-#    ports:
-#      - 9090:9090
-#    volumes:
-#      - ./prometheus:/etc/prometheus
-#      - prometheus:/prometheus
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node_exporter
+    restart: always
+    ports:
+      - 9100:9100
+    links:
+      - prometheus
+
+  cadvisor:
+    image: google/cadvisor:latest
+    container_name: cadvisor
+    restart: always
+    volumes:
+      - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - 8080:8000
+    links:
+      - prometheus
+
+  postgres_exporter:
+    image: bitnami/postgres-exporter:latest
+    container_name: postgres_exporter
+    restart: always
+    environment:
+      - DATA_SOURCE_NAME=postgresql://refresher:refresher@postgres:5432/refresher?sslmode=disable
+    ports:
+      - "9187:9187"
+    depends_on:
+      - postgres
+      - prometheus
 
 volumes:
+  grafana:
+    external: false
   media:
     external: false
   postgres:
     external: false
-  grafana:
+  prometheus:
     external: false
-#  prometheus:
-#    external: false
+
