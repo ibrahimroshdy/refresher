@@ -108,7 +108,7 @@ This can easily be done by connecting Grafana to the database.
   <summary><h2 style="display: inline-block">Technology </h2></summary>
 
 ### Tech Stack 
-In this section, the referesher project's tech stack is visualized and explained. 
+In this section, the refresher project's tech stack is visualized and explained. 
 The tech stack is a chart with all the components and tools used to build this project and
 not just technical tools but also project management tools, Continuous Integration (CI), code coverage as well. 
 
