@@ -13,7 +13,7 @@ You probably also google the same set of instructions over and over. You always 
 Instead, why don't you have a complete project that grows as your experience grows and works as your own technical refresher. 
 The Refresher project aims to refresh technical skill and create an environment that is ready for experimenting ideas and expansion. 
 Each version of this project should project a design scheme. 
-This is refersher v1.
+This is refresher v1.
 
 <summary><h4 style="display: inline-block">Table of Contents</h4></summary>
     <ol>
