@@ -58,22 +58,22 @@ class RefresherSpeedtest:
         servers = [i for i in [t for t in zip(*self.speedtester.servers.values())][0]]
         return servers
 
-# if __name__ == '__main__':
-#     refresher_speedtest = RefresherSpeedtest()
-#     speedtest_res = refresher_speedtest.get_speedtest()
-#     best = refresher_speedtest.get_best_server()
-#     servers = refresher_speedtest.get_servers()
-#     try:
-#         s = ServersModel.objects.create(**best)
-#         s.save()
-#     except IntegrityError as IE:
-#         logger.info(f"Best server {best['name']} exists. {IE}")
-#
-#     speedtest_object = SpeedtesterModel.objects.update_or_create(best_server_id=int(best['id']), **speedtest_res)
-#
-#     for item in servers:
-#         try:
-#             s = ServersModel.objects.create(**item)
-#             s.save()
-#         except IntegrityError as IE:
-#             logger.info(f"Server {item['name']} exists. {IE}")
+if __name__ == '__main__':
+    refresher_speedtest = RefresherSpeedtest()
+    speedtest_res = refresher_speedtest.get_speedtest()
+    best = refresher_speedtest.get_best_server()
+    servers = refresher_speedtest.get_servers()
+    try:
+        s = ServersModel.objects.create(**best)
+        s.save()
+    except IntegrityError as IE:
+        logger.info(f"Best server {best['name']} exists. {IE}")
+
+    speedtest_object = SpeedtesterModel.objects.update_or_create(best_server_id=int(best['id']), **speedtest_res)
+
+    for item in servers:
+        try:
+            s = ServersModel.objects.create(**item)
+            s.save()
+        except IntegrityError as IE:
+            logger.info(f"Server {item['name']} exists. {IE}")
