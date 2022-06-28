@@ -9,7 +9,7 @@ from loguru import logger
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'refresher_config.settings')
 django.setup()
 
-from apps.speedtester.models import ServersModel, SpeedtesterModel
+from apps.speedtester.models import ServersModel, SpeedtesterModel, ClientModel
 
 
 class RefresherSpeedtest:
@@ -30,13 +30,28 @@ class RefresherSpeedtest:
         :return:
         A dict containting download, upload, lat, lat of conducted speed test
         """
-        lat_lon = self.speedtester.lat_lon
+        lat, lon = self.speedtester.lat_lon
         return {
             'download': round(self.speedtester.download() * 10 ** -6, 3),
             'upload': round(self.speedtester.upload() * 10 ** -6, 3),
-            'lat': lat_lon[0],
-            'lon': lat_lon[1]
+            'lat': lat,
+            'lon': lon
         }
+
+    def get_client(self):
+        """
+        Speed test getter that returns the configuration of the client doing the speedtest itself
+         only using speedtester.config['client']
+        :return:
+        A dict with client information
+        """
+        client = self.speedtester.config['client']
+        entries_to_remove = ('isprating', 'rating', 'ispdlavg', 'ispulavg', 'loggedin')
+        for k in entries_to_remove:
+            client.pop(k, None)
+        client['cc'] = client['country']
+        client.pop('country')
+        return client
 
     def get_best_server(self):
         """
@@ -58,22 +73,32 @@ class RefresherSpeedtest:
         servers = [i for i in [t for t in zip(*self.speedtester.servers.values())][0]]
         return servers
 
-# if __name__ == '__main__':
-#     refresher_speedtest = RefresherSpeedtest()
-#     speedtest_res = refresher_speedtest.get_speedtest()
-#     best = refresher_speedtest.get_best_server()
-#     servers = refresher_speedtest.get_servers()
-#     try:
-#         s = ServersModel.objects.create(**best)
-#         s.save()
-#     except IntegrityError as IE:
-#         logger.info(f"Best server {best['name']} exists. {IE}")
-#
-#     speedtest_object = SpeedtesterModel.objects.update_or_create(best_server_id=int(best['id']), **speedtest_res)
-#
-#     for item in servers:
-#         try:
-#             s = ServersModel.objects.create(**item)
-#             s.save()
-#         except IntegrityError as IE:
-#             logger.info(f"Server {item['name']} exists. {IE}")
+
+if __name__ == '__main__':
+    refresher_speedtest = RefresherSpeedtest()
+    speedtest_res = refresher_speedtest.get_speedtest()
+    best = refresher_speedtest.get_best_server()
+    servers = refresher_speedtest.get_servers()
+    client = refresher_speedtest.get_client()
+
+    try:
+        s, b = ServersModel.objects.get_or_create(**best)
+        s.save()
+    except IntegrityError as IE:
+        logger.info(f"Best server {best['name']} exists. {IE}")
+
+    try:
+        c, b = ClientModel.objects.get_or_create(**client)
+        c.save()
+        speedtest_object = SpeedtesterModel.objects.update_or_create(best_server_id=int(best['id']),
+                                                                     client=c,
+                                                                     **speedtest_res)
+    except IntegrityError as IE:
+        logger.info(f"Client {client['cc']}-{client['isp']} exists. {IE}")
+
+    for item in servers:
+        try:
+            s = ServersModel.objects.create(**item)
+            s.save()
+        except IntegrityError as IE:
+            logger.info(f"Server {item['name']} exists. {IE}")

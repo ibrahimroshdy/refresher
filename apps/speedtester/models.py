@@ -2,6 +2,21 @@ from django.db import models
 from model_utils.models import TimeStampedModel
 
 
+class ClientModel(TimeStampedModel):
+    ip = models.GenericIPAddressField('ipaddress')
+    lat = models.FloatField('lat')
+    lon = models.FloatField('lon')
+    isp = models.CharField('internet service provider', max_length=256)
+    cc = models.CharField('country code', max_length=5)
+
+    def __str__(self):
+        return f'{self.cc}.{self.isp}'
+
+    class Meta:
+        verbose_name = 'Client'
+        verbose_name_plural = 'Clients'
+
+
 class ServersModel(TimeStampedModel):
     id = models.IntegerField('id', primary_key=True)
     url = models.URLField('url')
@@ -25,6 +40,7 @@ class ServersModel(TimeStampedModel):
 
 class SpeedtesterModel(TimeStampedModel):
     best_server = models.ForeignKey(ServersModel, on_delete=models.CASCADE)
+    client = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
     download = models.FloatField('download')
     upload = models.FloatField('upload')
     lat = models.FloatField('lat')
