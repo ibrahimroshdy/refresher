@@ -42,7 +42,6 @@ services:
     ports:
       - 8888:8888
     depends_on:
-      - swag
       - redis
 
   celery_worker:
