@@ -13,7 +13,7 @@ You probably also google the same set of instructions over and over. You always 
 Instead, why don't you have a complete project that grows as your experience grows and works as your own technical refresher. 
 The Refresher project aims to refresh technical skill and create an environment that is ready for experimenting ideas and expansion. 
 Each version of this project should project a design scheme. 
-This is refersher v1.
+This is refresher v1.
 
 <summary><h4 style="display: inline-block">Table of Contents</h4></summary>
     <ol>
@@ -108,7 +108,7 @@ This can easily be done by connecting Grafana to the database.
   <summary><h2 style="display: inline-block">Technology </h2></summary>
 
 ### Tech Stack 
-In this section, the referesher project's tech stack is visualized and explained. 
+In this section, the refresher project's tech stack is visualized and explained. 
 The tech stack is a chart with all the components and tools used to build this project and
 not just technical tools but also project management tools, Continuous Integration (CI), code coverage as well. 
 
