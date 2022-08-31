@@ -18,7 +18,7 @@ class RefresherSpeedtest:
         A speedtest abstract class that iniates a speedtest method with catch clause for internet connection.
         """
         try:
-            self.speedtester = speedtest.Speedtest()
+            self.speedtester = speedtest.Speedtest(secure=True)
         except speedtest.ConfigRetrievalError as CRE:
             logger.error(f'No internet connection: {CRE}')
             raise SystemExit
