@@ -18,5 +18,6 @@ def process_speedtest_test():
     speedtest_res = refresher_speedtest.get_speedtest()
     best = refresher_speedtest.get_best_server()
     servers = refresher_speedtest.get_servers()
+    client = refresher_speedtest.get_client()
 
-    return speedtest_res, best, servers
+    return speedtest_res, best, servers, client
