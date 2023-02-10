@@ -9,15 +9,15 @@ jobs:
       name: test native
       steps:
       ##########   CHECK OUT REPO AND PRINT REPO INFO #######
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Intro to job runner
-        run: |
-          echo "job runner details "
-          echo "Event: ${{ github.event_name }}"
-          echo "os: ${{ runner.os }} server."
-          echo "Repository: ${{ github.repository }}:${{ github.ref_name }}."
-          ls ${{ github.workspace }}
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Intro to job runner
+          run: |
+            echo "job runner details "
+            echo "Event: ${{ github.event_name }}"
+            echo "os: ${{ runner.os }} server."
+            echo "Repository: ${{ github.repository }}:${{ github.ref_name }}."
+            ls ${{ github.workspace }}
         - name: Install poetry and python packages
           run: |
             pip install poetry pyfiglet
