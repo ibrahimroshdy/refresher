@@ -6,7 +6,6 @@ on: [ push ]
 
 jobs:
   test-local:
-    - needs: build_push
       runs-on: ubuntu-latest
       name: test docker
       steps:
