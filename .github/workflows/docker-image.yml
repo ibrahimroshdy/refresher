@@ -60,8 +60,8 @@ jobs:
       run: docker run ghcr.io/${{ github.repository }}:${{ github.ref_name }} /bin/bash -c "coverage run manage.py test apps"
     - name: codecov
       uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.codecov_token }} # not required for public repos
-          name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
+      with:
+        token: ${{ secrets.codecov_token }} # not required for public repos
+        name: codecov-umbrella # optional
+        fail_ci_if_error: true # optional (default = false)
+        verbose: true # optional (default = false)
