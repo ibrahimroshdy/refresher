@@ -4,7 +4,7 @@ name: Refresher CI — Docker
 on: [ push ]
 
 jobs:
-  build_push:
+  build-push:
     runs-on: ubuntu-latest
     name: build docker
     steps:
@@ -36,7 +36,7 @@ jobs:
             docker/Dockerfile
 
   test_docker:
-    needs: build_push
+    needs: build-push
     runs-on: ubuntu-latest
     name: test docker
     steps:
