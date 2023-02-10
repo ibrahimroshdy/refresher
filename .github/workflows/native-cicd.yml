@@ -3,12 +3,15 @@ name: Refresher CI — Native
 
 on: [ push ]
 
-
 jobs:
   test-local:
       runs-on: ubuntu-latest
       name: test docker
       steps:
+        - name: where
+          run: ls
+        - name: what
+          run: pwd
         - name: Install poetry and python packages
           run: |
             pip install poetry pyfiglet
