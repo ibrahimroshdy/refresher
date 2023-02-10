@@ -2,8 +2,8 @@
 
 pyfiglet REFRESHER
 
-echo "Deleting the existing sqllite db..."
-rm db.sqlite3
+#echo "Deleting the existing sqllite db..."
+#rm db.sqlite3
 
 echo "Running makemigrations and migrate..."
 python3 manage.py makemigrations
