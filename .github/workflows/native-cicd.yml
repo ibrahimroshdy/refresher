@@ -20,6 +20,10 @@ jobs:
           ls ${{ github.workspace }}
       - name: Install poetry and python packages
         run: |
+          apt-get update 
+          apt-get install -y --no-install-recommends git libpq-dev
+          apt-get purge -y --auto-remove \
+          rm -rf /var/lib/apt/lists/*
           pip install poetry pyfiglet
           poetry config virtualenvs.create false
           poetry install
