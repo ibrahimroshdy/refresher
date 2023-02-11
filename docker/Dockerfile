@@ -1,7 +1,7 @@
 # Multistage build to optimize caching 
 
 # 1. Base image as python for system requirment (Installing requirements for debian environment)
-FROM python:3.7-slim-stretch as base
+FROM python:3.9-slim as base
 # Needed by github container registry
 LABEL org.opencontainers.image.source https://github.com/ibrahimroshdy/refresher
 RUN apt-get update \
