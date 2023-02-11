@@ -20,9 +20,8 @@ jobs:
           ls ${{ github.workspace }}
       - name: Install poetry and python packages
         run: |
-          pip install poetry pyfiglet
-          poetry config virtualenvs.create false
-          poetry install
+          pip install pyfiglet
+          pip install -r requirements.txt
           pyfiglet TEST LOCAL
       - name: Run test local
         run: coverage run manage.py test apps && coverage xml --data-file=.coverage
