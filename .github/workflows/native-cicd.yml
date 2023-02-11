@@ -20,7 +20,6 @@ jobs:
           ls ${{ github.workspace }}
       - name: Install poetry and python packages
         run: |
-          apt update 
           apt install -y --no-install-recommends git libpq-dev
           apt purge -y --auto-remove \
           rm -rf /var/lib/apt/lists/*
