@@ -21,3 +21,4 @@ def process_speedtest_test():
     client = refresher_speedtest.get_client()
 
     return speedtest_res, best, servers, client
+

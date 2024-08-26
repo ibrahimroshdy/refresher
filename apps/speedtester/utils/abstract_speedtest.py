@@ -6,6 +6,7 @@ from django.db.utils import IntegrityError
 from loguru import logger
 
 # Setup django to be able to access the settings file
+import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'refresher_config.settings')
 django.setup()
 
