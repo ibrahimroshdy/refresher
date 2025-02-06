@@ -17,6 +17,12 @@ ENV PYTHONDONTWRITEBYTECODE 1
 # Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED 1
 
+# Install system dependencies for PyYAML
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libyaml-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN python -m venv /opt/venv
 # Make sure we use the venv (virtual environment)
 ENV PATH="/opt/venv/bin:$PATH"

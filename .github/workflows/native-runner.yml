@@ -11,6 +11,12 @@ jobs:
       ##########   CHECK OUT REPO AND PRINT REPO INFO #######
       - name: Checkout repo
         uses: actions/checkout@v3
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          
       - name: Intro to job runner
         run: |
           echo "job runner details "
@@ -18,13 +24,23 @@ jobs:
           echo "os: ${{ runner.os }} server."
           echo "Repository: ${{ github.repository }}:${{ github.ref_name }}."
           ls ${{ github.workspace }}
-      - name: Install poetry and python packages
+          
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          poetry config virtualenvs.create false
+          
+      - name: Install dependencies
         run: |
           pip install pyfiglet
-          pip install -r requirements.txt
-          pyfiglet Packges Downloaded
+          poetry install --no-interaction --no-root
+          pyfiglet Packages Downloaded
+          
       - name: Run coverage test local
-        run: coverage run manage.py test apps && coverage xml --data-file=.coverage
+        run: |
+          poetry run coverage run manage.py test apps 
+          poetry run coverage xml --data-file=.coverage
+          
       - name: Upload to CodeCov
         uses: codecov/codecov-action@v3
         with:

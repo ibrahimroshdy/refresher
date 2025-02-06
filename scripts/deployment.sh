@@ -1,48 +1,46 @@
 #!/bin/bash
 
-#/home/speedtest
-              #├── deployment.sh
-              #├── docker
-              #│   ├── docker-compose.staging.yml
-              #│   ├── grafana
-              #│   │   └── provisioning
-              #│   │       ├── dashboards
-              #│   │       │   ├── dashboard.yml
-              #│   │       │   ├── data
-              #│   │       │   │   └── data-dashboard.json
-              #│   │       │   └── prometheus
-              #│   │       │       ├── docker_containers.json
-              #│   │       │       ├── docker_host.json
-              #│   │       │       ├── monitor_services.json
-              #│   │       │       └── nginx_container.json
-              #│   │       └── datasources
-              #│   │           └── datasources.yml
-              #│   └── prometheus
-              #│       └── prometheus.yml
-              #├── nginx
-              #│   └── site-confs
-              #│       ├── default
-              #│       ├── flower
-              #│       ├── grafana
-              #│       └── speedtester
-              #└── scripts
-              #    └── cr_pull.sh
+set -e  # Exit on error
 
+# Check if pyfiglet is installed
+if ! command -v figlet &> /dev/null; then
+    echo "Installing pyfiglet..."
+    pip install pyfiglet
+fi
 
-# run cr_pull.sh
-figlet PACKAGES DOWNLOAD
+# Function to print section headers
+print_header() {
+    echo
+    figlet "$1"
+    echo
+}
+
+# Check if required directories exist
+if [ ! -d "./nginx" ] || [ ! -d "./docker" ] || [ ! -d "./scripts" ]; then
+    echo "Error: Required directories not found. Please run this script from the project root."
+    exit 1
+fi
+
+# Download packages
+print_header "PACKAGES DOWNLOAD"
+if [ ! -x "./scripts/cr_pull.sh" ]; then
+    chmod +x ./scripts/cr_pull.sh
+fi
 ./scripts/cr_pull.sh
 
-
-# run swag container and shut it down
-figlet HTTP/HTTPS
+# Setup HTTPS
+print_header "HTTP/HTTPS"
 docker-compose -f docker/docker-compose.staging.yml up -d swag
 docker-compose -f docker/docker-compose.staging.yml down
 
-# copy nginx files
-figlet nginx
-cp -Rf ./nginx/  /home/withnoedge/swag/
+# Copy nginx files
+print_header "NGINX"
+if [ ! -d "/home/withnoedge/swag" ]; then
+    echo "Creating swag directory..."
+    mkdir -p /home/withnoedge/swag
+fi
+cp -Rf ./nginx/* /home/withnoedge/swag/
 
-# docker compose up
-figlet SERVER READY
+# Start services
+print_header "SERVER READY"
 docker-compose -f docker/docker-compose.staging.yml up -d
