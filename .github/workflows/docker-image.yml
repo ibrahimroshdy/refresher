@@ -72,5 +72,9 @@ jobs:
       - name: Run tests in container
         run: |
           docker run --rm ghcr.io/${{ github.repository }}:${{ github.ref_name }} /bin/bash -c "
+            source /opt/venv/bin/activate && \
+            cd /app && \
+            python -c 'import sys; print(sys.path)' && \
+            python -c 'import django; print(django.__file__)' && \
             coverage run manage.py test apps
           "
