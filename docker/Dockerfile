@@ -36,7 +36,7 @@ RUN pip install --upgrade pip && \
 COPY pyproject.toml poetry.lock ./
 
 # Install dependencies directly with pip to ensure they're in the venv
-RUN poetry export -f requirements.txt --output requirements.txt && \
+RUN poetry export --format requirements.txt --output requirements.txt && \
     pip install -r requirements.txt
 
 # Verify Django installation
