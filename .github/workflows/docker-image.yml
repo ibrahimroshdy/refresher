@@ -35,31 +35,31 @@ jobs:
           file:
             docker/Dockerfile
 
-#  test_docker:
-#    needs: build-push
-#    runs-on: ubuntu-latest
-#    name: test docker
-#    steps:
-#      ##########   CHECK OUT REPO AND PRINT REPO INFO #######
-#      - name: Checkout repo
-#        uses: actions/checkout@v3
-#      ######### DOCKER LOGIN AND PULL CUSTOM ACTION #############
-#      - name: Docker Login and Pull
-#        uses: ./.github/actions/docker-pull-image
-#        with:
-#          username:
-#            ${{ github.REPOSITORY_OWNER }}
-#          password:
-#            ${{ secrets.pta }}
-#          registry:
-#            ghcr.io
-#          repository:
-#            ${{ github.repository }}
-#          tag:
-#            ${{ github.ref_name }}
-#      - name: Run tests in container
-#        run: |
-#          docker run ghcr.io/${{ github.repository }}:${{ github.ref_name }} /bin/bash -c "
-#            pip install coverage &&
-#            coverage run manage.py test apps
-#          "
+  test_docker:
+    needs: build-push
+    runs-on: ubuntu-latest
+    name: test docker
+    steps:
+      ##########   CHECK OUT REPO AND PRINT REPO INFO #######
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      ######### DOCKER LOGIN AND PULL CUSTOM ACTION #############
+      - name: Docker Login and Pull
+        uses: ./.github/actions/docker-pull-image
+        with:
+          username:
+            ${{ github.REPOSITORY_OWNER }}
+          password:
+            ${{ secrets.pta }}
+          registry:
+            ghcr.io
+          repository:
+            ${{ github.repository }}
+          tag:
+            ${{ github.ref_name }}
+      - name: Run tests in container
+        run: |
+          docker run ghcr.io/${{ github.repository }}:${{ github.ref_name }} /bin/bash -c "
+            pip install coverage &&
+            coverage run manage.py test apps
+          "
