@@ -198,13 +198,134 @@ So meanwhile, *SWAG* takes care of distributing, securing and routing of our thr
 ```
 
 ## Getting Started
-1. CI
-   1. CircleCI
-   2. Github Actions
-      1. Workflows
-      2. Actions
-2. codecov. 
 
+### 1. CI/CD Pipeline
+The project uses two CI/CD platforms:
 
+#### 1.1 CircleCI
+- Runs tests in a native Python environment
+- Uses Poetry for dependency management
+- Executes Django migrations and tests
+- Configured in `.circleci/config.yml`
+
+#### 1.2 Github Actions
+The project uses two main workflows:
+
+##### 1.2.1 Docker Image Workflow (`docker-image.yml`)
+- Builds and pushes Docker images to GitHub Container Registry (ghcr.io)
+- Uses custom actions for build/push operations
+- Runs tests inside Docker container
+- Uploads test coverage to Codecov
+
+##### 1.2.2 Native Runner Workflow (`native-runner.yml`) 
+- Runs tests in native Python environment
+- Uses Poetry for dependency management
+- Uploads coverage reports to Codecov
+
+### 2. Local Development Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/ibrahimroshdy/refresher.git
+cd refresher
+```
+
+2. Install Poetry (dependency management):
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
+3. Install dependencies:
+```bash
+poetry install
+```
+
+4. Run migrations:
+```bash
+./scripts/local_migrate.sh
+```
+
+5. Start development server:
+```bash
+poetry run python manage.py runserver
+```
+
+### 3. Docker Deployment
+
+1. Development Environment:
+```bash
+docker-compose -f docker/docker-compose.dev.yml up -d
+```
+
+2. Staging Environment:
+```bash
+docker-compose -f docker/docker-compose.staging.yml up -d
+```
+
+3. Production Environment:
+```bash
+docker-compose -f docker/docker-compose.yml up -d
+```
+
+### 4. Monitoring Stack
+
+The project includes a comprehensive monitoring stack:
+
+1. **Grafana** (Data Visualization)
+   - Access at: `http://localhost:3000`
+   - Pre-configured dashboards for:
+     - System metrics
+     - Docker container stats
+     - PostgreSQL metrics
+     - Speed test results
+
+2. **Prometheus** (Metrics Collection)
+   - Collects metrics from:
+     - Node Exporter (system metrics)
+     - cAdvisor (container metrics)
+     - PostgreSQL Exporter
+
+3. **Flower** (Celery Monitoring)
+   - Access at: `http://localhost:8888`
+   - Monitor Celery tasks and workers
+   - View task history and statistics
+
+### 5. Application Components
+
+1. **Django Backend**
+   - Admin interface at: `http://localhost:8000/admin`
+   - Manages speed test data and scheduling
+   - Handles database operations
+
+2. **Celery Workers**
+   - Executes scheduled speed tests
+   - Processes results asynchronously
+   - Stores data in PostgreSQL
+
+3. **PostgreSQL Database**
+   - Stores application data
+   - Maintains test history
+   - Handles Celery beat scheduling
+
+4. **Redis**
+   - Message broker for Celery
+   - Caches temporary data
+
+### 6. Security
+
+The project uses SWAG (Secure Web Application Gateway) which provides:
+- Automatic SSL certificate management via Let's Encrypt
+- Reverse proxy configuration with Nginx
+- Security headers and best practices
+
+### 7. Deployment Pipeline
+
+1. Code changes are pushed to GitHub
+2. CI/CD pipeline runs tests and builds Docker image
+3. Image is pushed to GitHub Container Registry
+4. Deployment script pulls new image and updates services
+5. SWAG handles SSL termination and routing
+
+For more detailed information about each component, check the respective configuration files in the repository.
 
 </details>
