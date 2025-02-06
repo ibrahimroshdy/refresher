@@ -35,8 +35,9 @@ RUN pip install --upgrade pip && \
 # Copy poetry files
 COPY pyproject.toml poetry.lock ./
 
-# Install dependencies
-RUN poetry install --no-interaction --no-ansi --no-root
+# Install dependencies directly with pip to ensure they're in the venv
+RUN poetry export -f requirements.txt --output requirements.txt && \
+    pip install -r requirements.txt
 
 # Verify Django installation
 RUN python -c "import django; print(f'Django is installed at: {django.__file__}')"
