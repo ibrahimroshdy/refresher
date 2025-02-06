@@ -43,6 +43,7 @@ jobs:
       ##########   CHECK OUT REPO AND PRINT REPO INFO #######
       - name: Checkout repo
         uses: actions/checkout@v3
+      
       ######### DOCKER LOGIN AND PULL CUSTOM ACTION #############
       - name: Docker Login and Pull
         uses: ./.github/actions/docker-pull-image
@@ -57,9 +58,19 @@ jobs:
             ${{ github.repository }}
           tag:
             ${{ github.ref_name }}
+      
+      # Verify container exists and can run
+      - name: Verify container
+        run: |
+          # List available images to verify pull
+          docker images
+          
+          # Try running container with simple command
+          docker run --rm ghcr.io/${{ github.repository }}:${{ github.ref_name }} python -c "print('Container is working')"
+      
+      # Run actual tests if container verification passes
       - name: Run tests in container
         run: |
-          docker run ghcr.io/${{ github.repository }}:${{ github.ref_name }} /bin/bash -c "
-            pip install coverage &&
+          docker run --rm ghcr.io/${{ github.repository }}:${{ github.ref_name }} /bin/bash -c "
             coverage run manage.py test apps
           "
