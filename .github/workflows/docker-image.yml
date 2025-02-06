@@ -60,6 +60,7 @@ jobs:
       - name: Run tests in container
         run: |
           docker run ghcr.io/${{ github.repository }}:${{ github.ref_name }} /bin/bash -c "
-            pip install coverage &&
+            cd /app && \
+            source /opt/venv/bin/activate && \
             coverage run manage.py test apps
           "
