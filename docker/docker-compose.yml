@@ -24,18 +24,18 @@ services:
 
   grafana:
     image: grafana/grafana:8.5.0
-      container_name: grafana
-      expose:
-        - 3000
-      restart: always
-      environment:
-        - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-worldmap-panel
-      volumes:
-        - ./grafana/provisioning:/etc/grafana/provisioning
+    container_name: grafana
+    expose:
+      - 3000
+    restart: always
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-worldmap-panel
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
-        - grafana:/var/lib/grafana
-      depends_on:
-        - swag
+      - grafana:/var/lib/grafana
+    depends_on:
+      - swag
 
   # Refresher Backend Service
   refresherbackend:

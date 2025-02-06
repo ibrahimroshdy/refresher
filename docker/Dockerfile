@@ -5,7 +5,7 @@ FROM python:3.9-slim as base
 # Needed by github container registry
 LABEL org.opencontainers.image.source https://github.com/ibrahimroshdy/refresher
 RUN apt-get update \
-&& apt-get install -y --no-install-recommends git libpq-dev\
+&& apt-get install -y --no-install-recommends git libpq-dev gcc python3-dev\
 && apt-get purge -y --auto-remove \
 && rm -rf /var/lib/apt/lists/*
 
@@ -21,19 +21,22 @@ RUN python -m venv /opt/venv
 # Make sure we use the venv (virtual environment)
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Install python packages and dependencies
-RUN pip install poetry && \
+# Install poetry and configure it
+RUN pip install --upgrade pip && \
+    pip install poetry && \
     poetry config virtualenvs.create false
 
-# copy poetry packages file
-COPY pyproject.toml ./
-RUN poetry install --no-interaction --no-ansi
+# Copy poetry files
+COPY pyproject.toml poetry.lock ./
+
+# Install dependencies
+RUN poetry install --no-interaction --no-ansi --no-root
 
 # Multistage build
 # 3. Changes from the backend files
 FROM base as final
 
-# copy installed deps from base (known as sys_setup) aimage
+# copy installed deps from base (known as sys_setup) image
 COPY --from=sys_setup /opt/venv /opt/venv
 # Make sure we use the virtualenv:
 ENV PATH="/opt/venv/bin:$PATH"
