@@ -33,10 +33,13 @@ RUN pip install --upgrade pip && \
     poetry config virtualenvs.create false
 
 # Copy poetry files
-COPY pyproject.toml ./
+COPY pyproject.toml poetry.lock ./
 
 # Install dependencies
 RUN poetry install --no-interaction --no-ansi --no-root
+
+# Verify Django installation
+RUN python -c "import django; print(f'Django is installed at: {django.__file__}')"
 
 # Multistage build
 # 3. Changes from the backend files
@@ -63,6 +66,9 @@ COPY ./scripts/entrypoint.sh .
 
 # Make file executable
 RUN chmod +x entrypoint.sh
+
+# Verify Django installation in final stage
+RUN python -c "import django; print(f'Django is installed at: {django.__file__}')"
 
 # Entrypoint
 CMD ["/app/entrypoint.sh"]
