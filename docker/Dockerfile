@@ -29,7 +29,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 # Install poetry and configure it
 RUN pip install --upgrade pip && \
-    pip install poetry && \
+    pip install poetry coverage && \
     poetry config virtualenvs.create false
 
 # Copy poetry files
