@@ -33,7 +33,7 @@ RUN pip install --upgrade pip && \
     poetry config virtualenvs.create false
 
 # Copy poetry files
-COPY pyproject.toml poetry.lock ./
+COPY pyproject.toml ./
 
 # Install dependencies
 RUN poetry install --no-interaction --no-ansi --no-root
