@@ -6,7 +6,7 @@ authors = ["ibrahimroshdy <ibrahimabdelrahman@aucegypt.edu>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-Django = "3.2.15"
+Django = "4.2.18"
 tqdm = "^4.64.0"
 pyfiglet = "^0.8.post1"
 fuzzywuzzy = "^0.18.0"
