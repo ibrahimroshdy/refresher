@@ -6,6 +6,7 @@
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/ibrahimroshdy/refresher/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/ibrahimroshdy/refresher/tree/main)
 [![codecov](https://codecov.io/gh/ibrahimroshdy/refresher/branch/main/graph/badge.svg?token=G77HXOM8GX)](https://codecov.io/gh/ibrahimroshdy/refresher)
 
+
 ## Introduction
 You probably have tons of ideas laying around in some notebook about a specific project you want to start implementing. 
 You probably also google the same set of instructions over and over. You always forget some of the syntax in a `Dockerfile`.
